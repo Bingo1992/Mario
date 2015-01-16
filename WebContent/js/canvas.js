@@ -1,10 +1,14 @@
 init(200,"mylegend",800,400,main);
-var loadingLayer,backLayer,loader,anime,background,hero;
-var STAGE_STEP = 1;
+var loadingLayer,backLayer,barrierLayer;
+var anime,background,hero,barrier;
+var addSpeed = 0;//添加障碍物的速度
+var MOVE_STEP = 3,HEIGHT_STEP = 78;
 var imgList = {};
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
-	{name:"player",path:"images/player.png"}
+	{name:"player",path:"images/player.png"},
+	{name:"chara",path:"images/chara.png"},
+	{name:"pillar",path:"images/pillar.png"}
 );
 
 function main(){
@@ -41,7 +45,7 @@ function gameInit(){
 	title.size = 30;
 	title.color = "#fff";
 	title.text = "超级马里奥";
-	backLayer.addChild(title);
+//	backLayer.addChild(title);
 	
 	//	显示说明文字
 	backLayer.graphics.drawRect(1, "#fff", [50,240,220,40]);
@@ -51,9 +55,10 @@ function gameInit(){
 	txtClick.text = "点击页面开始游戏";
 	txtClick.x = (LGlobal.width - txtClick.getWidth())/10;
 	txtClick.y = 245;
-	backLayer.addChild(txtClick);
+//	backLayer.addChild(txtClick);
 	//添加点击事件
-	backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
+//	backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
+	gameStart();
 
 }
 //游戏画面开始
@@ -65,16 +70,20 @@ function gameStart(){
 	var bitmap01 = new LBitmap(new LBitmapData(imgList["background"]));
 	backLayer.addChild(bitmap01);
 
+	//添加障碍物
+	barrierInit();
+	
+	
 	
 	//添加玩家
 	hero = new Player();
 	hero.x = 20;
 	hero.y = 300;
 	backLayer.addChild(hero);
-//	loader = new LLoader();  
+//	  loader = new LLoader();  
 //    loader.addEventListener(LEvent.COMPLETE,loadBitmapdata);  
 //    loader.load("images/player.png","bitmapData");  
-
+	backLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
 	backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
 	backLayer.addEventListener(LMouseEvent.MOUSE_UP,mouseup);
 	//键盘事件
@@ -115,6 +124,7 @@ function gameStart(){
 function mouseup(event){
 	hero.moveType = null;
 	hero.changeAction();
+	
 }
 
 function mousedown(event){
@@ -131,20 +141,27 @@ function up(event){
 }
 
 function down(event){
-	if(hero.moveType)return;
+//	if(hero.moveType)return;
 	if(event.keyCode == 37){
 		hero.moveType = "left";
 	}else if(event.keyCode == 39){
 		hero.moveType = "right";
 	}
+	if(event.keyCode == 38){
+		//按一次向上键跳一次
+		if(hero.moveType == "up")return;
+		hero.moveType = "up";
+	}
 	hero.changeAction();
 }
+
+//循环播放
 function onframe(){
-	
+	hero.changeAction();
+	//玩家存在时一直调用循环播放事件
+	if(hero){
 		hero.onframe();
+	}
 	
 }
-//function onframe02(){
-//	background.run();
-//}
 
