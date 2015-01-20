@@ -1,7 +1,9 @@
 init(200,"mylegend",800,400,main);
 var loadingLayer,backLayer,barrierLayer;
-var anime,background,hero,barrier;
+var bitmap01,background; //背景层
+var anime,hero,barrier;
 var addSpeed = 0;//添加障碍物的速度
+var playerX = 20;//记录玩家的横坐标
 var MOVE_STEP = 3,HEIGHT_STEP = 78;
 var imgList = {};
 var imgData = new Array(
@@ -67,8 +69,11 @@ function gameStart(){
 	backLayer.die();
 	backLayer.removeAllChild();
 	//添加背景图片
-	var bitmap01 = new LBitmap(new LBitmapData(imgList["background"]));
-	backLayer.addChild(bitmap01);
+//	var bitmap01 = new LBitmap(new LBitmapData(imgList["background"]));
+//	backLayer.addChild(bitmap01);
+	
+	background = new Background();
+	backLayer.addChild(background);
 
 	//添加障碍物
 	barrierInit();
@@ -80,6 +85,8 @@ function gameStart(){
 	hero.x = 20;
 	hero.y = 300;
 	backLayer.addChild(hero);
+	
+	
 //	  loader = new LLoader();  
 //    loader.addEventListener(LEvent.COMPLETE,loadBitmapdata);  
 //    loader.load("images/player.png","bitmapData");  
@@ -94,18 +101,7 @@ function gameStart(){
  
 }
 
-//显示卷轴背景
-//function Background(){
-//	base(this,LSprite,[]);
-//	var self = this;
-//	//背景图片显示
-//    self.bitmap01 = new LBitmap(new LBitmapData(imgList["background"]));
-//	self.addChild(self.bitmap01);
-//}
-//Background.prototype.run = function(){
-//	var self = this;
-//	self.bitmap01.x -= STAGE_STEP;
-//}
+
 
 //玩家动作
 //function loadBitmapdata(event){
@@ -124,6 +120,7 @@ function gameStart(){
 function mouseup(event){
 	hero.moveType = null;
 	hero.changeAction();
+//	background.run();
 	
 }
 
@@ -138,14 +135,21 @@ function mousedown(event){
 function up(event){
 	hero.moveType = null;
 	hero.changeAction();
+	hero.isJump = false;
+//	background.run();
 }
 
 function down(event){
 //	if(hero.moveType)return;
 	if(event.keyCode == 37){
 		hero.moveType = "left";
+//		background.moveType = "left";
+		
+		
 	}else if(event.keyCode == 39){
 		hero.moveType = "right";
+//		background.moveType = "right";
+		
 	}
 	if(event.keyCode == 38){
 		//按一次向上键跳一次
@@ -153,13 +157,17 @@ function down(event){
 		hero.moveType = "up";
 	}
 	hero.changeAction();
+	background.run();
 }
 
 //循环播放
 function onframe(){
+	
+	background.run();
+	
 	hero.changeAction();
 	//玩家存在时一直调用循环播放事件
-	if(hero){
+	if(hero.isJump){
 		hero.onframe();
 	}
 	

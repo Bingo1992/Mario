@@ -10,31 +10,41 @@ function Player(){
 
 Player.prototype.onframe = function(){
 	var self = this;
-	if(self.moveType == "left"){
-		hero.x -= MOVE_STEP;
-	}else if(self.moveType == "right"){
-		hero.x += MOVE_STEP;
-	}
-	if(self.moveType == "up"){
-		hero.y -= HEIGHT_STEP;
-		setTimeout(function(){
-			hero.y = 300;
-		},200);	
-	}
-	self.anime.onframe();
+	
+//	if(self.moveType == "left"){
+////		hero.x -= MOVE_STEP;
+//		background.bitmap01.x += MOVE_STEP;
+//
+//	}else if(self.moveType == "right"){
+////		hero.x += MOVE_STEP;
+//		background.bitmap01.x -= MOVE_STEP;
+//	}
+//	if(self.moveType == "up"){
+//		hero.y -= HEIGHT_STEP;
+//		
+//		setTimeout(function(){
+//			hero.y = 300;
+//		},200);	
+//	}
+	self.anime.onframe();//循环播放list图
 };
 
 //控制主角动作
 Player.prototype.changeAction = function(){
 	var self = this;
 	if(self.moveType == "left"){
+		self.isJump = true;
 		hero.anime.setAction(1);
 		hero.x -= MOVE_STEP;
+	
 	}else if(self.moveType == "right"){
+		self.isJump = true;
 		hero.anime.setAction(2);
 		hero.x += MOVE_STEP;
+
 	}
 	if(self.moveType == "up"){
+		self.isJump = true;
 		hero.y -= HEIGHT_STEP;
 		setTimeout(function(){
 			hero.y = 300;
