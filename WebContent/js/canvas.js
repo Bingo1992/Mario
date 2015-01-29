@@ -1,8 +1,10 @@
 init(200,"mylegend",800,400,main);
-var loadingLayer,backLayer,barrierLayer;
-var bitmap01,background; //背景层
-var anime,hero,barrier;
-var addSpeed = 0;//添加障碍物的速度
+var loadingLayer,backLayer,ladderLayer;
+var bitmap01,bitmap02,bitmap03,bitmap04,bitmap05,background; //背景层
+var anime,mario,ladder;
+var isJump = false;
+var canshoot;//是否射击炮弹
+var addSpeed = 0;//添加阶梯的速度
 var playerX = 20;//记录玩家的横坐标
 var MOVE_STEP = 3,HEIGHT_STEP = 78;
 var imgList = {};
@@ -76,15 +78,14 @@ function gameStart(){
 	backLayer.addChild(background);
 
 	//添加障碍物
-	barrierInit();
-	
+	ladderInit();
 	
 	
 	//添加玩家
-	hero = new Player();
-	hero.x = 20;
-	hero.y = 300;
-	backLayer.addChild(hero);
+	mario = new Player();
+	mario.x = 20;
+	mario.y = 300;
+	backLayer.addChild(mario);
 	
 	
 //	  loader = new LLoader();  
@@ -118,9 +119,8 @@ function gameStart(){
 //}
 
 function mouseup(event){
-	hero.moveType = null;
-	hero.changeAction();
-//	background.run();
+	mario.moveType = null;
+	mario.isJump = false;
 	
 }
 
@@ -133,43 +133,59 @@ function mousedown(event){
 }
 
 function up(event){
-	hero.moveType = null;
-	hero.changeAction();
-	hero.isJump = false;
-//	background.run();
+	mario.moveType = null;
+	mario.isJump = false;
 }
 
 function down(event){
-//	if(hero.moveType)return;
-	if(event.keyCode == 37){
-		hero.moveType = "left";
-//		background.moveType = "left";
+//	if(mario.moveType)return;
+	if(event.keyCode == 37 || event.keyCode == 65){
+//		mario.moveType = "left";
+		background.moveType = "left";
 		
 		
-	}else if(event.keyCode == 39){
-		hero.moveType = "right";
-//		background.moveType = "right";
+	}else if(event.keyCode == 39 || event.keyCode == 68){
+//		mario.moveType = "right";
+		background.moveType = "right";
 		
 	}
-	if(event.keyCode == 38){
+	if(event.keyCode == 38 ||event.keyCode == 87){
 		//按一次向上键跳一次
-		if(hero.moveType == "up")return;
-		hero.moveType = "up";
+		if(mario.moveType == "up")return;
+		mario.moveType = "up";
 	}
-	hero.changeAction();
+	mario.changeAction();
 	background.run();
 }
 
 //循环播放
 function onframe(){
-	
-	background.run();
-	
-	hero.changeAction();
-	//玩家存在时一直调用循环播放事件
-	if(hero.isJump){
-		hero.onframe();
+
+	if(mario.isJump){
+		background.run();
+		mario.onframe();
+		
+		//执行100次onframe添加一个阶梯
+		if(addSpeed -- < 0){
+			addSpeed = 100;
+			addladder();
+		}
+		
+		//实现所有阶梯向某个方向移动
+		var key = null, found = false; 
+		for(key in ladderLayer.childList){
+			var _child = ladderLayer.childList[key];
+			_child.onframe();
+		}
+		
+		
 	}
+	mario.changeAction();
+
+//	//玩家存在时一直调用循环播放事件
+//	if(mario.isJump){
+//		mario.onframe(); 
+//	}
 	
 }
 
