@@ -53,13 +53,13 @@ Ladder.prototype.onframe = function(){
 	if(background.moveType == "left"){
 		self.x += 2*MOVE_STEP;
 		if(self.child){
-			self.x += MOVE_STEP;
+			self.x += 2*MOVE_STEP;
 		}
 	}else if(background.moveType == "right"){
 		self.x -= 2*MOVE_STEP;
 		if(self.child){
-			self.x -= MOVE_STEP;
+			self.x -= 2*MOVE_STEP;
 		}
 	}
-}
+};
 

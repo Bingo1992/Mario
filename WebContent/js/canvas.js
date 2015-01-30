@@ -171,14 +171,12 @@ function onframe(){
 			addladder();
 		}
 		
-		//实现所有阶梯向某个方向移动
-		var key = null, found = false; 
+		//实现所有阶梯向某个方向移动,found表示主角是否接触阶梯
+		var key = null; 
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
-			_child.onframe();
-		}
-		
-		
+			_child.onframe();	
+		}		
 	}
 	mario.changeAction();
 
