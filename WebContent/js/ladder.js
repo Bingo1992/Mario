@@ -2,7 +2,7 @@ function Ladder(){
 	base(this,LSprite,[]);
 	var self = this;
 	self.child = null;
-	self.hy = 0;//控制游戏相对地板位置	
+	self.hx = 0;//控制游戏相对地板位置	
 	self.setView();
 }
 

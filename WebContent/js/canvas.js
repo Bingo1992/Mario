@@ -3,6 +3,7 @@ var loadingLayer,backLayer,ladderLayer;
 var bitmap01,bitmap02,bitmap03,bitmap04,bitmap05,background; //背景层
 var anime,mario,ladder;
 var isJump = false;
+var hx; //阶梯的横坐标
 var canshoot;//是否射击炮弹
 var addSpeed = 0;//添加阶梯的速度
 var playerX = 20;//记录玩家的横坐标
@@ -83,7 +84,7 @@ function gameStart(){
 	
 	//添加玩家
 	mario = new Player();
-	mario.x = 20;
+	mario.x = 200;
 	mario.y = 300;
 	backLayer.addChild(mario);
 	
@@ -175,7 +176,17 @@ function onframe(){
 		var key = null, found = false; 
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
+			//如果阶梯在屏幕之外将其移除
+			if(_child.x < -_child.getWidth()){
+				ladderLayer.removeChild(_child);
+			}
+			if(!found && mario.x+64 > _child.x && mario.x < _child.x+91 && mario.y +64 >= _child.y ){
+				found = true;
+				mario.y = _child.y;
+				_child.child = mario;
+			}
 			_child.onframe();
+			
 		}
 		
 		
