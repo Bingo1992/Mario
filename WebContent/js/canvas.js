@@ -172,8 +172,8 @@ function onframe(){
 			addladder();
 		}
 		
-		//实现所有阶梯向某个方向移动
-		var key = null, found = false; 
+		//实现所有阶梯向某个方向移动,found表示主角是否接触阶梯
+		var key = null; 
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			//如果阶梯在屏幕之外将其移除
@@ -188,15 +188,16 @@ function onframe(){
 			_child.onframe();
 			
 		}
-		
-		
+		mario.changeAction();
 	}
-	mario.changeAction();
+		
+}
+	
 
 //	//玩家存在时一直调用循环播放事件
 //	if(mario.isJump){
 //		mario.onframe(); 
 //	}
 	
-}
+
 
