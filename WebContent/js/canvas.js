@@ -2,7 +2,9 @@ init(200,"mylegend",800,400,main);
 var loadingLayer,backLayer,ladderLayer;
 var bitmap01,bitmap02,bitmap03,bitmap04,bitmap05,background; //背景层
 var anime,mario,ladder;
-var isJump = false;
+var isMove = false;
+var count = 0;//统计分数
+var isOnladder = false;//在阶梯上
 var hx; //阶梯的横坐标
 var canshoot;//是否射击炮弹
 var addSpeed = 0;//添加阶梯的速度
@@ -77,11 +79,16 @@ function gameStart(){
 	
 	background = new Background();
 	backLayer.addChild(background);
-
+	var score = new LTextField();
+	score.size = 14;
+	score.color = "#fff";
+	score.x = 20;
+	score.y = 20;
+	score.text = "分数: " + count;
+	
+	backLayer.addChild(score);
 	//添加障碍物
 	ladderInit();
-	
-	
 	//添加玩家
 	mario = new Player();
 	mario.x = 200;
@@ -103,25 +110,9 @@ function gameStart(){
  
 }
 
-
-
-//玩家动作
-//function loadBitmapdata(event){
-//	 var bitmapdata = new LBitmapData(loader.content,0,0,50,60); 
-//	 var bitmap02 = new LBitmap(bitmapdata);
-//	 //将玩家添加到canvas
-//	 bitmap02.x = 20;
-//	 bitmap02.y = 300;
-//	 backLayer.addChild(bitmap02);
-//	 // 保存有坐标位置的二维数组
-//    var list = LGlobal.divideCoordinate(150,120,2,3);
-//	anime = new LAnimation(backLayer,bitmapdata,list);
-//	backLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
-//}
-
 function mouseup(event){
 	mario.moveType = null;
-	mario.isJump = false;
+	mario.isMove = false;
 	
 }
 
@@ -135,7 +126,7 @@ function mousedown(event){
 
 function up(event){
 	mario.moveType = null;
-	mario.isJump = false;
+	mario.isMove = false;
 }
 
 function down(event){
@@ -155,49 +146,24 @@ function down(event){
 		if(mario.moveType == "up")return;
 		mario.moveType = "up";
 	}
-	mario.changeAction();
+//	mario.changeAction();
 	background.run();
 }
 
 //循环播放
 function onframe(){
-
-	if(mario.isJump){
-		background.run();
+	if(mario.isMove){
 		mario.onframe();
-		
 		//执行100次onframe添加一个阶梯
 		if(addSpeed -- < 0){
 			addSpeed = 100;
 			addladder();
 		}
-		
-		//实现所有阶梯向某个方向移动,found表示主角是否接触阶梯
-		var key = null; 
-		for(key in ladderLayer.childList){
-			var _child = ladderLayer.childList[key];
-			//如果阶梯在屏幕之外将其移除
-			if(_child.x < -_child.getWidth()){
-				ladderLayer.removeChild(_child);
-			}
-			if(!found && mario.x+64 > _child.x && mario.x < _child.x+91 && mario.y +64 >= _child.y ){
-				found = true;
-				mario.y = _child.y;
-				_child.child = mario;
-			}
-			_child.onframe();
-			
-		}
 		mario.changeAction();
-	}
-		
+	}	
 }
 	
 
-//	//玩家存在时一直调用循环播放事件
-//	if(mario.isJump){
-//		mario.onframe(); 
-//	}
 	
 
 

@@ -21,14 +21,20 @@ function Background(){
 
 Background.prototype.run = function(){
 	var self = this;
-
 	if(self.moveType == "right"){
-		mario.isJump = true;
+		mario.isMove = true;
 		mario.anime.setAction(2);
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
-	
+		//移动阶梯
+		for(key in ladderLayer.childList){
+			var _child = ladderLayer.childList[key];
+			_child.x -= MOVE_STEP;
+			if(mario.x > _child.x+50){
+				mario.y =  300;
+			}
+		}
 		if(self.bitmap02.x < -self.bitmap01.getWidth()){
 			self.bitmap01.x = self.bitmap02.x;
 			self.bitmap02.x = self.bitmap01.x+self.bitmap01.getWidth();
@@ -36,16 +42,32 @@ Background.prototype.run = function(){
 		}
 		
 	}else if(self.moveType == "left"){
-		mario.isJump = true;
+		mario.isMove = true;
 		mario.anime.setAction(1);
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
-	
+		
+		for(key in ladderLayer.childList){
+			var _child = ladderLayer.childList[key];
+			_child.x += MOVE_STEP;
+			if(mario.x+45 < _child.x){
+				mario.y = 300;
+			}
+		}
 		if(self.bitmap01.x > 0){
 			self.bitmap01.x = -self.bitmap01.getWidth();
 			self.bitmap02.x = self.bitmap01.x+self.bitmap01.getWidth();
 			self.bitmap03.x = self.bitmap01.x+self.bitmap01.getWidth()*2;
 		}
 	}
+};
+
+Background.prototype.score = function(){
+	var title = new LTextField();
+	title.x = 50;
+	title.y = 100;
+	title.size = 30;
+	title.color = "#fff";
+	title.text = "分数：";
 };

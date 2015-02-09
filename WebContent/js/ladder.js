@@ -26,7 +26,7 @@ function addladder(){
 	var aladder;
 	aladder = new Ladder01();
 	aladder.x = Math.random()*800;
-	aladder.y = 285;
+	aladder.y = 286;
 	ladderLayer.addChild(aladder);
 }
 
@@ -47,19 +47,15 @@ function ladderInit(){
 	
 }
 
-Ladder.prototype.onframe = function(){
-	var self = this;
-
-	if(background.moveType == "left"){
-		self.x += 2*MOVE_STEP;
-		if(self.child){
-			self.x += 2*MOVE_STEP;
-		}
-	}else if(background.moveType == "right"){
-		self.x -= 2*MOVE_STEP;
-		if(self.child){
-			self.x -= 2*MOVE_STEP;
-		}
-	}
-};
+//Ladder.prototype.onframe = function(){
+//	var self = this;
+//
+//	if(background.moveType == "left"){
+//		self.x += MOVE_STEP;
+//		
+//	}else if(background.moveType == "right"){
+//		self.x -= MOVE_STEP;
+//		
+//	}
+//};
 
