@@ -1,9 +1,10 @@
 init(200,"mylegend",800,400,main);
 var loadingLayer,backLayer,ladderLayer;
-var bitmap01,bitmap02,bitmap03,bitmap04,bitmap05,background; //背景层
+var bitmap01,bitmap02,bitmap03,background; //背景层
 var anime,mario,ladder;
 var isMove = false;
 var count = 0;//统计分数
+var score = 0;
 var isOnladder = false;//在阶梯上
 var hx; //阶梯的横坐标
 var canshoot;//是否射击炮弹
@@ -79,14 +80,6 @@ function gameStart(){
 	
 	background = new Background();
 	backLayer.addChild(background);
-	var score = new LTextField();
-	score.size = 14;
-	score.color = "#fff";
-	score.x = 20;
-	score.y = 20;
-	score.text = "分数: " + count;
-	
-	backLayer.addChild(score);
 	//添加障碍物
 	ladderInit();
 	//添加玩家
@@ -94,11 +87,7 @@ function gameStart(){
 	mario.x = 200;
 	mario.y = 300;
 	backLayer.addChild(mario);
-	
-	
-//	  loader = new LLoader();  
-//    loader.addEventListener(LEvent.COMPLETE,loadBitmapdata);  
-//    loader.load("images/player.png","bitmapData");  
+	addScore();
 	backLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
 	backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
 	backLayer.addEventListener(LMouseEvent.MOUSE_UP,mouseup);
@@ -146,12 +135,32 @@ function down(event){
 		if(mario.moveType == "up")return;
 		mario.moveType = "up";
 	}
-//	mario.changeAction();
 	background.run();
 }
 
+function addScore(){
+
+	labelText = new LTextField();
+	labelText.color = "#ffffff";
+	labelText.font = "HG行書体";
+	labelText.size = 14;
+	labelText.x = 10;
+	labelText.y = 20;
+	labelText.text = "Distance:";
+	backLayer.addChild(labelText);
+	times = new LTextField();
+	times.color = "#fff";
+	times.font = "HG行書体";
+	times.size = 14;
+	times.x = 120;
+	times.y = 20;
+	times.text = "0";
+	backLayer.addChild(times);
+	
+}
 //循环播放
 function onframe(){
+	LGlobal.setDebug(true);
 	if(mario.isMove){
 		mario.onframe();
 		//执行100次onframe添加一个阶梯
@@ -160,7 +169,9 @@ function onframe(){
 			addladder();
 		}
 		mario.changeAction();
-	}	
+		
+	}
+	
 }
 	
 

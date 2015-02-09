@@ -6,22 +6,22 @@ function Ladder(){
 	self.setView();
 }
 
-//设定不同障碍物
+//设定不同阶梯
 Ladder.prototype.setView = function(){};
 
-//障碍物1
+//阶梯1
 function Ladder01(){
 	base(this,Ladder,[]);
 }
 
-//将障碍物显示在canvas上
+//将阶梯显示在canvas上
 Ladder01.prototype.setView = function(){
 	var self = this;
 	self.bitmap02 = new LBitmap(new LBitmapData(imgList["pillar"]));
 	self.addChild(self.bitmap02);
 };
 
-//添加障碍物
+//添加阶梯
 function addladder(){
 	var aladder;
 	aladder = new Ladder01();
@@ -30,21 +30,15 @@ function addladder(){
 	ladderLayer.addChild(aladder);
 }
 
-//消灭障碍物
+//消灭阶梯
 function removeladder(){
-//	ladderLayer.removeChild(aladder);
+
 }
 
-//障碍物实例化
+//阶梯实例化
 function ladderInit(){
 	ladderLayer = new LSprite();
 	backLayer.addChild(ladderLayer);
-	
-//	setInterval(function(){
-//		addladder();
-//	},10000);
-	
-	
 }
 
 //Ladder.prototype.onframe = function(){

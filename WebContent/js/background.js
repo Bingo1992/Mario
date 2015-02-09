@@ -27,6 +27,7 @@ Background.prototype.run = function(){
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
+		times.text = count++;
 		//移动阶梯
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
@@ -47,7 +48,7 @@ Background.prototype.run = function(){
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
-		
+		times.text = count--;
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			_child.x += MOVE_STEP;
@@ -63,11 +64,3 @@ Background.prototype.run = function(){
 	}
 };
 
-Background.prototype.score = function(){
-	var title = new LTextField();
-	title.x = 50;
-	title.y = 100;
-	title.size = 30;
-	title.color = "#fff";
-	title.text = "分数：";
-};

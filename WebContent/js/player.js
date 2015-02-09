@@ -22,13 +22,13 @@ Player.prototype.changeAction = function(){
 		mario.y -= HEIGHT_STEP;
 		var key = null;
 		for(key in ladderLayer.childList){
-			var _child = ladderLayer.childList[key];
+			var ladderChild = ladderLayer.childList[key];
 			//如果阶梯在屏幕之外将其移除
-			if(_child.x < -_child.getWidth()){
-				ladderLayer.removeChild(_child);
+			if(ladderChild.x < -ladderChild.getWidth()){
+				ladderLayer.removeChild(ladderChild);
 			}
 			//若处于梯子周围并且跳跃则将其置于阶梯上
-			if(mario.x+45 > _child.x && mario.x < _child.x+50 && mario.y <= _child.y){
+			if(mario.x+45 > ladderChild.x && mario.x < ladderChild.x+50 && mario.y <= ladderChild.y){
 				mario.y = mario.y + 6;    
 				
 			}else{

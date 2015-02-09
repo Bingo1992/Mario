@@ -1,10 +1,12 @@
 var datatable = null;
 var db = openDatabase('MyData','','My Database',102400);
 function init(){
-	datatable = hero.x;
+	datatable = count;
+	var time = new Date().getTime();
+    localStorage.setItem(time,data);
+    alert("数据已保存。");
 }
-function showAllData(){
-	db.transaction(function(tx){
-//		tx.executeSql('CREATE TABLE IF NOT EXISTS MsgData(name TEXT, message TEXT, time INTEGER)')
-	})
+
+function loadStorage(x){
+	
 }
