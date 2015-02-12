@@ -1,13 +1,13 @@
-init(200,"mylegend",800,400,main);
+//init(200,"mylegend",800,400,main);
 var loadingLayer,backLayer,ladderLayer;
 var bitmap01,bitmap02,bitmap03,background; //背景层
 var anime,mario,ladder;
 var isMove = false;
-var count = 0;//统计分数
-var score = 0;
+var score = 0;//统计分数
 var isOnladder = false;//在阶梯上
 var hx; //阶梯的横坐标
 var canshoot;//是否射击炮弹
+var shootx = 0;//炮口相对人物的位置
 var addSpeed = 0;//添加阶梯的速度
 var playerX = 20;//记录玩家的横坐标
 var MOVE_STEP = 3,HEIGHT_STEP = 78;
@@ -16,7 +16,13 @@ var imgData = new Array(
 	{name:"background",path:"images/background.png"},
 	{name:"player",path:"images/player.png"},
 	{name:"chara",path:"images/chara.png"},
-	{name:"pillar",path:"images/pillar.png"}
+	{name:"pillar",path:"images/pillar.png"},
+	{name:"bullet",path:"images/bullet01.png"}
+);
+//子弹类型数组
+var bulletList = new Array(
+		{startAngle:0,angle:20,step:10,speed:5,count:1},
+		{startAngle:180,angle:20,step:50,speed:5,count:1}
 );
 
 function main(){
@@ -74,10 +80,8 @@ function gameStart(){
 	//背景层清空
 	backLayer.die();
 	backLayer.removeAllChild();
-	//添加背景图片
-//	var bitmap01 = new LBitmap(new LBitmapData(imgList["background"]));
-//	backLayer.addChild(bitmap01);
 	
+	//添加背景图片
 	background = new Background();
 	backLayer.addChild(background);
 	//添加障碍物
@@ -88,6 +92,14 @@ function gameStart(){
 	mario.y = 300;
 	backLayer.addChild(mario);
 	addScore();
+	//添加子弹层
+	bulletLayer = new LSprite();
+	backLayer.addChild(bulletLayer);
+	mario.setBullet(0);
+	if(mario.canshoot){
+		
+	}
+	
 	backLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
 	backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
 	backLayer.addEventListener(LMouseEvent.MOUSE_UP,mouseup);
@@ -100,6 +112,7 @@ function gameStart(){
 }
 
 function mouseup(event){
+	background.moveType = null;
 	mario.moveType = null;
 	mario.isMove = false;
 	
@@ -108,38 +121,40 @@ function mouseup(event){
 function mousedown(event){
 	if(event.offsetX<=LGlobal.width*0.5){
 		down({keycode:37});
-	}else{
+	}else if(event.offsetX>LGlobal.width*0.5){
 		down({keycode:39});
+	}else if(event.offsetY>=LGlobal.height*0.5){
+		down({keycode:38});
 	}
 }
 
 function up(event){
+	background.moveType = null;
 	mario.moveType = null;
 	mario.isMove = false;
 }
 
 function down(event){
-//	if(mario.moveType)return;
 	if(event.keyCode == 37 || event.keyCode == 65){
-//		mario.moveType = "left";
 		background.moveType = "left";
 		
-		
 	}else if(event.keyCode == 39 || event.keyCode == 68){
-//		mario.moveType = "right";
 		background.moveType = "right";
-		
 	}
 	if(event.keyCode == 38 ||event.keyCode == 87){
 		//按一次向上键跳一次
 		if(mario.moveType == "up")return;
 		mario.moveType = "up";
 	}
+	if(event.keyCode == 32){
+		//按一次向上键跳一次
+		if(mario.moveType == "shoot")return;
+		mario.moveType = "shoot";
+	}
 	background.run();
 }
 
 function addScore(){
-
 	labelText = new LTextField();
 	labelText.color = "#ffffff";
 	labelText.font = "HG行書体";
@@ -154,13 +169,17 @@ function addScore(){
 	times.size = 14;
 	times.x = 120;
 	times.y = 20;
-	times.text = "0";
+	if(times.text == null){
+		times.text = "0";
+	}else{
+		times.text = localStorage.getItem("distance");
+	}
 	backLayer.addChild(times);
-	
 }
 //循环播放
 function onframe(){
 	LGlobal.setDebug(true);
+	var key;
 	if(mario.isMove){
 		mario.onframe();
 		//执行100次onframe添加一个阶梯
@@ -168,13 +187,14 @@ function onframe(){
 			addSpeed = 100;
 			addladder();
 		}
-		mario.changeAction();
-		
+		mario.changeAction();	
+	}
+	
+	for(key in bulletLayer.childList){
+		bulletLayer.childList[key].onframe();
+	}
+	if(mario.moveType == "shoot"){
+		mario.shoot();
 	}
 	
 }
-	
-
-	
-
-

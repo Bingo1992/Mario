@@ -17,8 +17,8 @@ function Ladder01(){
 //将阶梯显示在canvas上
 Ladder01.prototype.setView = function(){
 	var self = this;
-	self.bitmap02 = new LBitmap(new LBitmapData(imgList["pillar"]));
-	self.addChild(self.bitmap02);
+	self.bitmap = new LBitmap(new LBitmapData(imgList["pillar"]));
+	self.addChild(self.bitmap);
 };
 
 //添加阶梯
@@ -40,16 +40,4 @@ function ladderInit(){
 	ladderLayer = new LSprite();
 	backLayer.addChild(ladderLayer);
 }
-
-//Ladder.prototype.onframe = function(){
-//	var self = this;
-//
-//	if(background.moveType == "left"){
-//		self.x += MOVE_STEP;
-//		
-//	}else if(background.moveType == "right"){
-//		self.x -= MOVE_STEP;
-//		
-//	}
-//};
 

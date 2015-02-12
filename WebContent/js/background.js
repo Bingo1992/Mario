@@ -27,7 +27,8 @@ Background.prototype.run = function(){
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
-		times.text = count++;
+		times.text = score++;
+		localStorage.setItem("distance",score);
 		//移动阶梯
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
@@ -48,7 +49,9 @@ Background.prototype.run = function(){
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
-		times.text = count--;
+		times.text = score--;
+		//离线存储当前数据
+		localStorage.setItem("distance",score);
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			_child.x += MOVE_STEP;
