@@ -1,5 +1,5 @@
 
-//显示卷轴背景
+//显示背景
 function Background(){
 	base(this,LSprite,[]);
 	var self = this;

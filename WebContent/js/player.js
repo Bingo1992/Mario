@@ -21,9 +21,10 @@ Player.prototype.onframe = function(){
 //控制主角动作
 Player.prototype.changeAction = function(){
 	var self = this;	
-	if(self.moveType == "up"){
+	if(mario.moveType == "up"){
 		self.y -= HEIGHT_STEP;
 		var key = null;
+		self.isMove = true;
 		for(key in ladderLayer.childList){
 			var ladderChild = ladderLayer.childList[key];
 			//如果阶梯在屏幕之外将其移除
@@ -72,7 +73,6 @@ Player.prototype.shoot = function(){
 	//子弹实例化
 	obj = new Bullet(params);
 	bulletLayer.addChild(obj);
-	
 };
 
 
