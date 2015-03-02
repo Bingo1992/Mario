@@ -4,8 +4,8 @@ function Player(){
 	self.moveType = null;
 	self.isMove = false;
 	self.canshoot = false;
-	var list = LGlobal.divideCoordinate(256, 256, 4, 4);
-	var bitmapdata = new LBitmapData(imgList["chara"],0,128,64,64);
+	var list = LGlobal.divideCoordinate(150, 120,2, 3);
+	var bitmapdata = new LBitmapData(imgList["player"],0,0,50,60);
 	self.anime = new LAnimation(self,bitmapdata,list);
 }
 
@@ -15,38 +15,43 @@ Player.prototype.onframe = function(){
 //		self.isMove = true;
 //		self.shoot();
 //	}
-	self.anime.onframe();//循环播放list图
+	self.anime.onframe();//循环播放list图	
 };
 
 //控制主角动作
 Player.prototype.changeAction = function(){
-	var self = this;	
+	var self = this;
+	if(self.moveType == "shoot"){
+		self.canshoot = true;
+	}
+	
 	if(mario.moveType == "up"){
 		self.y -= HEIGHT_STEP;
-		var key = null;
+		var key1 = null;
 		self.isMove = true;
-		for(key in ladderLayer.childList){
-			var ladderChild = ladderLayer.childList[key];
+		//阶梯
+		for(key1 in ladderLayer.childList){
+			var ladderChild = ladderLayer.childList[key1];
 			//如果阶梯在屏幕之外将其移除
 			if(ladderChild.x < -ladderChild.getWidth()){
 				ladderLayer.removeChild(ladderChild);
 			}
 			//若处于梯子周围并且跳跃则将其置于阶梯上
-			if(self.x+45 > ladderChild.x && self.x < ladderChild.x+50 && self.y <= ladderChild.y){
-				self.y = self.y + 6;    
+			if(self.x+50  >= ladderChild.x && self.x <= ladderChild.x+91 && self.y <= ladderChild.y){	
 				
+				if(self.y <= 225){
+					self.y = 225;
+				}
 			}else{
 				setTimeout(function(){
 					self.y = 300;
-				},200);
+				},300);
 			}
-			
 		}
-	}
-	if(self.moveType == "shoot"){
-		self.canshoot = true;
-	}
-	
+		setTimeout(function(){
+			self.y = 300;
+		},300);
+	}		
 };
 
 //射击
