@@ -33,8 +33,19 @@ Background.prototype.run = function(){
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			_child.x -= MOVE_STEP;
+//			LGlobal.setDebug(true);
+//			trace(mario.x+34);
+//			trace(_child.x);
+			while(mario.x+34 == _child.x && mario.moveType != "up"){
+				MOVE_STEP = 0;	
+			}
 			if(mario.x > _child.x+50){
-				mario.y =  300;
+//				MOVE_STEP = 10;
+				if(self.Small()){
+					self.y = 318;
+				}else{
+					self.y = 300;
+				}
 			}
 		}
 		if(self.bitmap02.x < -self.bitmap01.getWidth()){
@@ -55,8 +66,18 @@ Background.prototype.run = function(){
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			_child.x += MOVE_STEP;
-			if(mario.x+45 < _child.x){
-				mario.y = 300;
+			
+			while(mario.x == _child.x + 47 && mario.moveType != "up"){
+				MOVE_STEP = 0;
+				
+			}
+			if(mario.x+34 < _child.x){
+				MOVE_STEP = 10;
+				if(self.Small()){
+					self.y = 318;
+				}else{
+					self.y = 300;
+				}
 			}
 		}
 		if(self.bitmap01.x > 0){
@@ -120,3 +141,27 @@ LEffect.prototype.onshow = function(thing,speed,size){
         s.snowList.push({x:snowX,y:0,s:speed});  
     }  
 };  
+
+//添加分数
+function addScore(){
+	labelText = new LTextField();
+	labelText.color = "#ffffff";
+	labelText.font = "HG行書体";
+	labelText.size = 14;
+	labelText.x = 10;
+	labelText.y = 20;
+	labelText.text = "Distance:";
+	backLayer.addChild(labelText);
+	times = new LTextField();
+	times.color = "#fff";
+	times.font = "HG行書体";
+	times.size = 14;
+	times.x = 120;
+	times.y = 20;
+	if(times.text == null){
+		times.text = "0";
+	}else{
+		times.text = localStorage.getItem("distance");
+	}
+	backLayer.addChild(times);
+}

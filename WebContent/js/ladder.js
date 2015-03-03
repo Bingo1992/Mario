@@ -2,7 +2,6 @@ function Ladder(){
 	base(this,LSprite,[]);
 	var self = this;
 	self.child = null;
-	self.hx = 0;//控制游戏相对地板位置	
 	self.setView();
 }
 
@@ -18,6 +17,7 @@ function Ladder01(){
 Ladder01.prototype.setView = function(){
 	var self = this;
 	self.bitmap = new LBitmap(new LBitmapData(imgList["pillar"]));
+	self.height = self.bitmap.getHeight();
 	self.addChild(self.bitmap);
 };
 
@@ -25,7 +25,7 @@ Ladder01.prototype.setView = function(){
 function addladder(){
 	var aladder;
 	aladder = new Ladder01();
-	aladder.x = Math.random()*800;
+	aladder.x = Math.random()*LGlobal.width+mario.x;
 	aladder.y = 286;
 	ladderLayer.addChild(aladder);
 }

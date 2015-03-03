@@ -8,7 +8,8 @@
 ">
 <script type="text/javascript" src="js/lufylegend-1.5.1.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript" src="js/GameLogo.js"></script>
+<script type="text/javascript" src="js/gameBegin.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/enemy.js"></script>
 <script type="text/javascript" src="js/player.js"></script>
 <script type="text/javascript" src="js/ladder.js"></script>
@@ -19,10 +20,7 @@
 </head>
 <body>
 	<div id="mylegend">loading...	    
-	</div>
-	<audio autoplay="autopaly">
-        <source src="only love.mp3" type="audio/mp3">
-    </audio>  
+	</div> 
     <script>
         function doScroll() {
             if(window.pageYOffset === 0) {
@@ -32,7 +30,7 @@
         window.onload = function() {
             setTimeout(doScroll, 100);
             //初始化
-            init(200,"mylegend",800,400,main,LEvent.INIT);
+            init(300,"mylegend",800,400,main,LEvent.INIT);
         };
         window.onorientationchange = function() {
             setTimeout(doScroll, 100);

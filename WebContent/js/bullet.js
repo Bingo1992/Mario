@@ -1,3 +1,9 @@
+ //子弹类型数组
+var bulletList = new Array(
+		{startAngle:0,angle:20,step:10,speed:5,count:1},
+		{startAngle:180,angle:20,step:50,speed:5,count:1}
+);
+
 function Bullet(params){
 	base(this,LSprite,[]);
 	var self = this;

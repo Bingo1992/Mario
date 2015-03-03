@@ -5,11 +5,11 @@ function Enemy(x,y,shootX,shootY,bitmapdata,hp){
 //	self.bitmap04 = new LBitmap(self.bitmapData);
 //	self.addChild(self.bitmap04);
 	
-	var list = LGlobal.divideCoordinate(150, 48, 1, 3);
-	var bitmapdata = new LBitmapData(imgList["enemy"],0,0,50,48);
+	var list = LGlobal.divideCoordinate(94, 30, 1, 3);
+	var bitmapdata = new LBitmapData(imgList["enemy"],0,0,31,30);
 	self.anime = new LAnimation(self,bitmapdata,list);
 	self.x = 500;
-	self.y = 314;
+	self.y = 332;
 	self.anime.setAction(2);
 }
 Enemy.prototype.run =  function(){
@@ -22,7 +22,7 @@ Enemy.prototype.run =  function(){
 Enemy.prototype.changeAction = function(){
 	LGlobal.setDebug(true);
 	var self = this;
-	if(mario.x + 64 >= self.x){
+	if(mario.x + 34 >= self.x){
 //		if(mario.y < 300){
 			self.islive = false;
 			setTimeout(function(){
