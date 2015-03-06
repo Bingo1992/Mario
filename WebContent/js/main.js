@@ -3,6 +3,7 @@ var bitmap01,bitmap02,bitmap03,bitmap04,background; //背景层
 //1,2,3背景  4蘑菇
 var anime,mario,ladder;
 var isMove = false;
+var small = true;//mario是否处于小的状态
 var score = 0;//统计分数
 var isOnladder = false;//在阶梯上
 var islive = true;
@@ -10,8 +11,8 @@ var hx; //阶梯的横坐标
 var canshoot;//是否射击炮弹
 var shootx = 0;//炮口相对人物的位置
 var addSpeed = 0;//添加阶梯的速度
-var MOVE_STEP = 6,HEIGHT_STEP = 78;//mario向右走的宽度和向上跳的高度
-var EN_STEP = 9;
+var MOVE_STEP = 6,HEIGHT_STEP = 100;//mario向右走的宽度和向上跳的高度
+var EN_STEP = 9;//蘑菇速度
 var imgList = {};
 var bitmapDataList = [];
 var STEP = 48;
@@ -20,8 +21,8 @@ var imgData = new Array(
 	{name:"player",path:"images/player.png"},
 //	{name:"mario",path:"images/Mario.png"},
 	{name:"bg",path:"images/mario.jpg"},
-	{name:"map",path:"images/map.jpg"},
-	{name:"pillar",path:"images/pillar.png"},
+	{name:"map",path:"images/map.png"},
+	{name:"pillar",path:"images/pillar_s.png"},
 	{name:"bullet",path:"images/bullet.png"},
 	{name:"enemy",path:"images/enemy.png"}
 );
@@ -58,13 +59,14 @@ function gameInit(){
 //	backLayer.addChild(title);
 //	//添加点击事件
 //	backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
-	gameStart();
+//	gameStart();
+	addMap();
 }
 
 //添加地图，表示关数
 function addMap(){  	
 	bgClear();
-    map = new LTileMap(mapData,imgList["map"],32,32);  
+    map = new LTileMap(mapData,imgList["map"],36,36);  
     backLayer.addChild(map); 
     backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
 } 
@@ -174,7 +176,7 @@ function onframe(){
 
 	mario.changeAction();	
 	
-	if(mario.x+34 >= enemy.x && mario.y==318){
+	if(mario.x+34 >= enemy.x && mario.x <= enemy.x+30 && mario.y==318){
 		mario.Big();
 //		backLayer.removeEventListener(LEvent.ENTER_FRAME,onframe);
 //		return;

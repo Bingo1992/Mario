@@ -18,7 +18,6 @@ function Background(){
 	
 }
 
-
 Background.prototype.run = function(){
 	var self = this;
 	if(self.moveType == "right"){
@@ -32,19 +31,22 @@ Background.prototype.run = function(){
 		//移动阶梯
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
+			_child._charaOld = _child.x;//上一次位置的横坐标
 			_child.x -= MOVE_STEP;
+			
 //			LGlobal.setDebug(true);
 //			trace(mario.x+34);
 //			trace(_child.x);
-			while(mario.x+34 == _child.x && mario.moveType != "up"){
-				MOVE_STEP = 0;	
-			}
+//			while(mario.x+34 <= _child._charaOld && mario.x+34 >=_child.x && mario.moveType != "up"){
+//				MOVE_STEP = 0;	
+//				_child.x = mario.x + 34;
+//			}
 			if(mario.x > _child.x+50){
 //				MOVE_STEP = 10;
-				if(self.Small()){
-					self.y = 318;
+				if(mario.small){
+					mario.y = 318;
 				}else{
-					self.y = 300;
+					mario.y = 300;
 				}
 			}
 		}
@@ -65,18 +67,18 @@ Background.prototype.run = function(){
 		localStorage.setItem("distance",score);
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
+			_child._charaOld = _child.x;
 			_child.x += MOVE_STEP;
-			
-			while(mario.x == _child.x + 47 && mario.moveType != "up"){
-				MOVE_STEP = 0;
-				
-			}
+//			while(mario.x >= _child._charaOld + 50 && mario.x <= _child.x + 50 && mario.moveType != "up"){
+//				MOVE_STEP = 0;
+//				_child.x = mario.x + 34;
+//			}
 			if(mario.x+34 < _child.x){
 				MOVE_STEP = 10;
-				if(self.Small()){
-					self.y = 318;
+				if(mario.small){
+					mario.y = 318;
 				}else{
-					self.y = 300;
+					mario.y = 300;
 				}
 			}
 		}

@@ -2,6 +2,7 @@ function Ladder(){
 	base(this,LSprite,[]);
 	var self = this;
 	self.child = null;
+	self._charaOld = self.x;//上一次位置的横坐标
 	self.setView();
 }
 
@@ -28,11 +29,6 @@ function addladder(){
 	aladder.x = Math.random()*LGlobal.width+mario.x;
 	aladder.y = 286;
 	ladderLayer.addChild(aladder);
-}
-
-//消灭阶梯
-function removeladder(){
-
 }
 
 //阶梯实例化

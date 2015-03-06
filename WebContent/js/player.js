@@ -4,6 +4,7 @@ function Player(){
 	self.moveType = null;
 	self.isMove = false;
 	self.canshoot = false;
+	self.small = true;
 	var list = LGlobal.divideCoordinate(150,120,2,3);
 	var bitmapdata = new LBitmapData(imgList["player"],0,0,50,60);
 	self.anime = new LAnimation(self,bitmapdata,list);
@@ -37,32 +38,27 @@ Player.prototype.changeAction = function(){
 				ladderLayer.removeChild(ladderChild);
 			}
 			//若处于梯子周围并且跳跃则将其置于阶梯上
-			if(self.x+34  >= ladderChild.x && self.x <= ladderChild.x+50){	
-				trace(self.x);
-				trace(ladderChild.x);
-				trace(self.y);
-				if(self.y <= 240){
-					if(self.Small()){
+				if(self.small){
+					if(self.x+34 >= ladderChild.x && self.x <= ladderChild.x+50 && self.y<=240){
 						self.y = 318 - ladderChild.height;
 					}else{
-						self.y = 300 - ladderChild.height;
+						setTimeout(function(){
+							if(self.small){
+								self.y = 318;
+							}
+						},500);
 					}
 					
-				}
-			}else{
-				setTimeout(function(){
-					if(self.Small()){
-						self.y = 318;
-					}else{
-						self.y = 300;
-					}
-					
-				},500);
+				}else if(self.x+50 >= ladderChild.x && self.x <= ladderChild.x+50 && self.y<=240){
+					self.y = 300 - ladderChild.height;
+				}else{
+					setTimeout(function(){
+						if(self.small){
+							self.y = 300;
+						}
+					},500);
 			}
 		}
-//		setTimeout(function(){
-//			self.y = 318;
-//		},300);
 	}		
 };
 
@@ -94,13 +90,18 @@ Player.prototype.shoot = function(){
 
 Player.prototype.Small = function(){
 	var self = this;
+	self.small = true;
+	self.canshoot = false;
 	self.scaleX = 0.7;
 	self.scaleY = 0.7;
 	self.x = 200;
 	self.y = 318;
-}
+};
+
 Player.prototype.Big = function(){
 	var self = this;
+	self.small = false;
+	self.canshoot = true;
 	self.scaleX = 1;
 	self.scaleY = 1;
 	self.x = 200;
