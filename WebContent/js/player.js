@@ -5,8 +5,8 @@ function Player(){
 	self.isMove = false;
 	self.canshoot = false;
 	self.small = true;
-	var list = LGlobal.divideCoordinate(150,120,2,3);
-	var bitmapdata = new LBitmapData(imgList["player"],0,0,50,60);
+	var list = LGlobal.divideCoordinate(240,240,4,4);
+	var bitmapdata = new LBitmapData(imgList["mario"],0,0,60,60);
 	self.anime = new LAnimation(self,bitmapdata,list);
 }
 
@@ -39,18 +39,20 @@ Player.prototype.changeAction = function(){
 			}
 			//若处于梯子周围并且跳跃则将其置于阶梯上
 				if(self.small){
-					if(self.x+34 >= ladderChild.x && self.x <= ladderChild.x+50 && self.y<=240){
-						self.y = 318 - ladderChild.height;
+					if(self.x+32 >= ladderChild.x && self.x <= ladderChild.x+50 && self.y<=240){
+						self.y = 320 - ladderChild.height;
+						ladderChild.hitRun();
 					}else{
 						setTimeout(function(){
 							if(self.small){
-								self.y = 318;
+								self.y = 320;
 							}
 						},500);
 					}
 					
 				}else if(self.x+50 >= ladderChild.x && self.x <= ladderChild.x+50 && self.y<=240){
 					self.y = 300 - ladderChild.height;
+					ladderChild.hitRun();
 				}else{
 					setTimeout(function(){
 						if(self.small){
@@ -59,6 +61,13 @@ Player.prototype.changeAction = function(){
 					},500);
 			}
 		}
+		setTimeout(function(){
+			if(self.small){
+				self.y = 300;
+			}else{
+				self.y = 320;
+			}
+		},500);
 	}		
 };
 
@@ -77,8 +86,8 @@ Player.prototype.shoot = function(){
 		var angle = i*bullet.angle + bullet.startAngle;
 		xspeed = bullet.speed * Math.cos(angle+Math.PI / 180);
 		var params = {
-				x:self.x + 50,
-				y:self.y +30,
+				x:self.x + 32,
+				y:self.y +12,
 				xspeed:xspeed,
 				belong:self.belong
 		};
@@ -95,7 +104,7 @@ Player.prototype.Small = function(){
 	self.scaleX = 0.7;
 	self.scaleY = 0.7;
 	self.x = 200;
-	self.y = 318;
+	self.y = 320;
 };
 
 Player.prototype.Big = function(){

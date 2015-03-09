@@ -11,20 +11,25 @@ var hx; //阶梯的横坐标
 var canshoot;//是否射击炮弹
 var shootx = 0;//炮口相对人物的位置
 var addSpeed = 0;//添加阶梯的速度
+var coinSpeed = 0;//添加硬币的速度
 var MOVE_STEP = 6,HEIGHT_STEP = 100;//mario向右走的宽度和向上跳的高度
 var EN_STEP = 9;//蘑菇速度
 var imgList = {};
 var bitmapDataList = [];
 var STEP = 48;
+var pass = 1;//关卡
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
 	{name:"player",path:"images/player.png"},
-//	{name:"mario",path:"images/Mario.png"},
+	{name:"mario",path:"images/chara.png"},
 	{name:"bg",path:"images/mario.jpg"},
 	{name:"map",path:"images/map.png"},
 	{name:"pillar",path:"images/pillar_s.png"},
+	{name:"floor1",path:"images/floor1.png"},
+	{name:"floor2",path:"images/floor2.png"},
 	{name:"bullet",path:"images/bullet.png"},
-	{name:"enemy",path:"images/enemy.png"}
+	{name:"enemy",path:"images/enemy.png"},
+	{name:"coin",path:"images/coin.png"}
 );
 
 function main(){
@@ -68,7 +73,7 @@ function addMap(){
 	bgClear();
     map = new LTileMap(mapData,imgList["map"],36,36);  
     backLayer.addChild(map); 
-    backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
+//    backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
 } 
 
 //游戏画面开始
@@ -83,8 +88,10 @@ function gameStart(){
 	backLayer.addChild(effect);  
 	effect.snowing();  
 	
-	//添加阶梯
+	//阶梯实例化
 	ladderInit();
+	//硬币实例化
+	coinInit();
 	//添加障碍物
 	enemy = new Enemy();
 	background.addChild(enemy);
@@ -120,7 +127,6 @@ function mouseup(event){
 	background.moveType = null;
 	mario.moveType = null;
 	mario.isMove = false;
-	
 }
 
 function mousedown(event){
@@ -169,20 +175,21 @@ function onframe(){
 		mario.onframe();
 		//执行100次onframe添加一个阶梯
 		if(addSpeed -- < 0){
-			addSpeed = 100;
+			addSpeed = 20;
 			addladder();
 		}	
+		if(coinSpeed -- < 0){
+			coinSpeed = 80;
+			addCoin();
+		}
 	}
 
 	mario.changeAction();	
 	
-	if(mario.x+34 >= enemy.x && mario.x <= enemy.x+30 && mario.y==318){
+	if(mario.x+40 >= enemy.x && mario.x <= enemy.x+30 && mario.y==320){
 		mario.Big();
 //		backLayer.removeEventListener(LEvent.ENTER_FRAME,onframe);
 //		return;
-	}
-	else{
-		enemy.anime.setAction(0,1);
 	}
 	
 	//子弹

@@ -22,7 +22,7 @@ Background.prototype.run = function(){
 	var self = this;
 	if(self.moveType == "right"){
 		mario.isMove = true;
-		mario.anime.setAction(0);
+		mario.anime.setAction(2);
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
@@ -73,8 +73,7 @@ Background.prototype.run = function(){
 //				MOVE_STEP = 0;
 //				_child.x = mario.x + 34;
 //			}
-			if(mario.x+34 < _child.x){
-				MOVE_STEP = 10;
+			if(mario.x+32 < _child.x){
 				if(mario.small){
 					mario.y = 318;
 				}else{

@@ -10,7 +10,7 @@ function Enemy(x,y,shootX,shootY,bitmapdata,hp){
 	self.anime = new LAnimation(self,bitmapdata,list);
 	self.x = 500;
 	self.y = 332;
-	self.anime.setAction(2);
+//	self.anime.setAction(2);
 }
 Enemy.prototype.run =  function(){
 	var self = this;
@@ -22,15 +22,13 @@ Enemy.prototype.run =  function(){
 Enemy.prototype.changeAction = function(){
 	LGlobal.setDebug(true);
 	var self = this;
-	if(mario.x + 34 >= self.x){
-//		if(mario.y < 300){
-			self.islive = false;
+	if(!self.islive){
+//			self.islive = false;
 			setTimeout(function(){
 				self.anime.setAction(0,1);
 			},100);
 			setTimeout(function(){
 				self.anime.setAction(0,2);
 			},100);
-//		}
 	}
 };

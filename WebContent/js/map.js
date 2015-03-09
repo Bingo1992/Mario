@@ -1,13 +1,13 @@
 var mapData = [    
 	                [18,18,18,18,18,18,18,18,18,18,18,18,55,55,18], 
-					[18,87,16,17,17,17,17,17,17,17,17,17,55,55,18],    
-					[18,18,16,17,17,17,18,18,17,17,17,17,55,55,18],    
-					[18,17,17,17,18,18,18,18,18,17,17,55,55,17,18],    
-					[18,17,17,18,22,23,23,23,24,18,17,55,55,17,18],    
-					[18,17,17,18,25,28,26,79,27,18,55,55,17,17,18],    
-					[18,17,17,17,17,10,82,12,18,18,55,55,17,17,18],    
-					[18,18,17,17,10,16,16,16,11,55,55,17,17,17,18],    
-					[18,18,17,17,77,16,16,16,16,21,21,17,17,17,18],    
+					[18,82,16,17,17,17,17,17,17,17,17,17,55,55,18],    
+					[18,18,16,16,17,17,18,18,17,17,17,17,55,55,18],    
+					[18,17,17,16,18,18,18,18,18,17,17,55,55,17,18],    
+					[18,17,16,83,22,23,23,23,24,18,17,55,55,17,18],    
+					[18,17,16,17,25,28,26,79,27,18,55,55,17,17,18],    
+					[18,17,16,17,17,10,87,12,18,18,55,55,17,17,18],    
+					[18,18,84,17,10,17,17,16,86,55,55,17,17,17,18],    
+					[18,18,16,16,85,16,16,16,16,21,21,17,17,17,18],    
 					[18,18,18,18,18,18,18,18,18,55,55,18,18,18,18]
                ]; 
 
@@ -31,6 +31,7 @@ function LTileMap(data,img,width,height){
         self.partHeight = height;  
     }  
     self.onshow();  
+    self.pass();  
 } 
 
 LTileMap.prototype.onshow = function(){  
@@ -58,3 +59,23 @@ LTileMap.prototype.onshow = function(){
     }  
 };
 
+LTileMap.prototype.pass = function(){
+	var self = this;
+	var mapdata = self.mapData; 
+	var partWidth = self.partWidth;  
+	var partHeight = self.partHeight;  
+	var player = new Player();
+	player.scaleX = 0.5;
+	player.scaleY = 0.5;
+	for(var i=0;i<mapdata.length;i++){  
+        for(var j=0;j<mapdata[0].length;j++){  
+            index = mapdata[i][j]; 
+            self.addChild(player); 
+            if(pass==1 && index == 82){            	  
+            	 player.x = j*partWidth + self.x;    
+            	 player.y = i*partHeight + self.y; 
+            	 player.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
+            }           
+        }  
+    }  
+};

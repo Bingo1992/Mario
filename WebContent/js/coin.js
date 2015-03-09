@@ -1,36 +1,28 @@
 function Coin(){
 	base(this,LSprite,[]);
 	var self = this;
-//	self.bitmapData = new LBitmapData(imgList["enemy"]);
-//	self.bitmap04 = new LBitmap(self.bitmapData);
-//	self.addChild(self.bitmap04);
-	
-	var list = LGlobal.divideCoordinate(94, 30, 1, 3);
-	var bitmapdata = new LBitmapData(imgList["enemy"],0,0,31,30);
-	self.anime = new LAnimation(self,bitmapdata,list);
-	self.x = 500;
-	self.y = 332;
-	self.anime.setAction(2);
+	self.bitmap = new LBitmap(new LBitmapData(imgList["coin"]));
+	self.addChild(self.bitmap);
 }
-Enemy.prototype.run =  function(){
-	var self = this;
-//	if(self.islive){
-		self.x -= EN_STEP;
-		self.changeAction();
-//	}
-};
-Enemy.prototype.changeAction = function(){
-	LGlobal.setDebug(true);
-	var self = this;
-	if(mario.x + 34 >= self.x){
-//		if(mario.y < 300){
-			self.islive = false;
-			setTimeout(function(){
-				self.anime.setAction(0,1);
-			},100);
-			setTimeout(function(){
-				self.anime.setAction(0,2);
-			},100);
-//		}
+function coinInit(){
+	coinLayer = new LSprite();
+	backLayer.addChild(coinLayer);
+}
+function addCoin(){	
+	var coin = {};
+	var count = Math.ceil(Math.random()*5);//随机产生1-5个硬币
+	for (var j=0; j<count; j++){
+		coin[j] = new Coin();
 	}
-};
+	//设定硬币的位置
+	for(var i = 0; i < count; i++){
+		if(i==0){
+			coin[i].x = Math.random()*LGlobal.width+mario.x;
+		}else{
+			coin[i].x = coin[i-1].x+26;
+		}
+		
+		coin[i].y = 240;
+		coinLayer.addChild(coin[i]);
+	}
+}
