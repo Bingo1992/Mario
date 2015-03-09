@@ -24,7 +24,7 @@ function GameLogo(){
 			logoLayer.addChild(bitmap);
 		}
 	}
-	bitmap = new LBitmap(new LBitmapData(imgList["mario"],0,0,56,56));
+	bitmap = new LBitmap(new LBitmapData(imgList["girl"],0,0,56,56));
 	bitmap.x = 260;
 	bitmap.y = 120;
 	logoLayer.addChild(bitmap);

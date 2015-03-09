@@ -6,7 +6,7 @@ function Player(){
 	self.canshoot = false;
 	self.small = true;
 	var list = LGlobal.divideCoordinate(240,240,4,4);
-	var bitmapdata = new LBitmapData(imgList["mario"],0,0,60,60);
+	var bitmapdata = new LBitmapData(imgList["girl"],0,0,60,60);
 	self.oldwidth = bitmapdata.width;
 	self.oldheight = bitmapdata.height;
 	self.x = 200;
@@ -25,7 +25,7 @@ Player.prototype.changeAction = function(){
 		self.canshoot = true;
 	}
 	
-	if(mario.moveType == "up"){
+	if(girl.moveType == "up"){
 		self.y -= HEIGHT_STEP;
 		self.isMove = true;
 		LGlobal.setDebug(true);

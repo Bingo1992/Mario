@@ -21,8 +21,8 @@ function Background(){
 Background.prototype.run = function(){
 	var self = this;
 	if(self.moveType == "right"){
-		mario.isMove = true;
-		mario.anime.setAction(2);
+		girl.isMove = true;
+		girl.anime.setAction(2);
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
@@ -33,8 +33,8 @@ Background.prototype.run = function(){
 			var _child = ladderLayer.childList[key];
 			_child._charaOld = _child.x;//上一次位置的横坐标
 			_child.x -= MOVE_STEP;
-			if(mario.x > _child.x+_child.width){
-				mario.y = LGlobal.height-35-mario.height;
+			if(girl.x > _child.x+_child.width){
+				girl.y = LGlobal.height-35-girl.height;
 			}
 		}
 		//移动硬币
@@ -48,8 +48,8 @@ Background.prototype.run = function(){
 		}
 		
 	}else if(self.moveType == "left"){
-		mario.isMove = true;
-		mario.anime.setAction(1);
+		girl.isMove = true;
+		girl.anime.setAction(1);
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
@@ -60,8 +60,8 @@ Background.prototype.run = function(){
 			var _child = ladderLayer.childList[key];
 			_child._charaOld = _child.x;
 			_child.x += MOVE_STEP;
-			if(mario.x+mario.width < _child.x){
-				mario.y = LGlobal.height-35-mario.height;
+			if(girl.x+girl.width < _child.x){
+				girl.y = LGlobal.height-35-girl.height;
 			}
 		}
 		for(var i=0;i<coinlen;i++){

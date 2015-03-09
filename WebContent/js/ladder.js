@@ -82,7 +82,7 @@ function addladder(){
 		aladder = new floor2();
 		aladder.y = 340;
 	}
-	aladder.x = Math.random()*LGlobal.width+mario.x;	
+	aladder.x = Math.random()*LGlobal.width+girl.x;	
 	ladderLayer.addChild(aladder);
 }
 

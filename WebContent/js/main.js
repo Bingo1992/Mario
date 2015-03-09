@@ -1,9 +1,9 @@
 var loadingLayer,backLayer,ladderLayer;
 var bitmap01,bitmap02,bitmap03,bitmap04,background; //背景层
 //1,2,3背景  4蘑菇
-var anime,mario,ladder;
+var anime,girl,ladder;
 var isMove = false;
-var small = true;//mario是否处于小的状态
+var small = true;//girl是否处于小的状态
 var score = 0;//统计分数
 var isOnladder = false;//在阶梯上
 var islive = true;
@@ -12,7 +12,7 @@ var canshoot;//是否射击炮弹
 var shootx = 0;//炮口相对人物的位置
 var addSpeed = 0;//添加阶梯的速度
 var coinSpeed = 0;//添加硬币的速度
-var MOVE_STEP = 6,HEIGHT_STEP = 100;//mario向右走的宽度和向上跳的高度
+var MOVE_STEP = 6,HEIGHT_STEP = 100;//girl向右走的宽度和向上跳的高度
 var EN_STEP = 9;//蘑菇速度
 var imgList = {};
 var coin = {};
@@ -23,7 +23,7 @@ var pass = 1;//关卡
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
 	{name:"player",path:"images/player.png"},
-	{name:"mario",path:"images/chara.png"},
+	{name:"girl",path:"images/chara.png"},
 	{name:"bg",path:"images/mario.jpg"},
 	{name:"map",path:"images/map.png"},
 	{name:"pillar",path:"images/pillar_s.png"},
@@ -98,15 +98,15 @@ function gameStart(){
 	enemy = new Enemy();
 	background.addChild(enemy);
 	//添加玩家
-	mario = new Player();
-	mario.Small();
-	backLayer.addChild(mario);	
+	girl = new Player();
+	girl.Small();
+	backLayer.addChild(girl);	
 	//添加分数
 	addScore();	
 	//添加子弹层
 	bulletLayer = new LSprite();
 	backLayer.addChild(bulletLayer);
-	mario.setBullet(0);
+	girl.setBullet(0);
 	
 	backLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
 	backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
@@ -127,8 +127,8 @@ function bgClear(){
 
 function mouseup(event){
 	background.moveType = null;
-	mario.moveType = null;
-	mario.isMove = false;
+	girl.moveType = null;
+	girl.isMove = false;
 }
 
 function mousedown(event){
@@ -143,8 +143,8 @@ function mousedown(event){
 
 function up(event){
 	background.moveType = null;
-	mario.moveType = null;
-	mario.isMove = false;
+	girl.moveType = null;
+	girl.isMove = false;
 }
 
 function down(event){
@@ -156,13 +156,13 @@ function down(event){
 	}
 	if(event.keyCode == 38){
 		//按一次向上键跳一次
-		if(mario.moveType == "up")return;
-		mario.moveType = "up";
+		if(girl.moveType == "up")return;
+		girl.moveType = "up";
 	}
 	if(event.keyCode == 65){
 		//按一次A发射子弹
-		if(mario.moveType == "shoot")return;
-		mario.moveType = "shoot";
+		if(girl.moveType == "shoot")return;
+		girl.moveType = "shoot";
 	}
 	background.run();
 	
@@ -173,8 +173,8 @@ function onframe(){
 	LGlobal.setDebug(true);
 	enemy.run();
 
-	if(mario.isMove){
-		mario.onframe();
+	if(girl.isMove){
+		girl.onframe();
 		//执行100次onframe添加一个阶梯
 		if(addSpeed -- < 0){
 			addSpeed = 20;
@@ -186,10 +186,10 @@ function onframe(){
 		}
 	}
 
-	mario.changeAction();	
+	girl.changeAction();	
 	
-	if(mario.x+40 >= enemy.x && mario.x <= enemy.x+30 && mario.y==LGlobal.height-35-mario.height){
-		mario.Big();
+	if(girl.x+40 >= enemy.x && girl.x <= enemy.x+30 && girl.y==LGlobal.height-35-girl.height){
+		girl.Big();
 //		backLayer.removeEventListener(LEvent.ENTER_FRAME,onframe);
 //		return;
 	}
@@ -207,7 +207,7 @@ function onframe(){
             bulletLayer.removeChild(bulletLayer.childList[key]);  
 		}  
 	}	
-	if(mario.moveType == "shoot"){
-		mario.shoot();
+	if(girl.moveType == "shoot"){
+		girl.shoot();
 	}
 }

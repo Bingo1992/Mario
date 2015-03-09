@@ -8,7 +8,7 @@ function Coin(){
 }
 Coin.prototype.onframe = function(){
 	var self = this;
-	if(mario.x + mario.width >= self.x && mario.x <= self.x + self.width && mario.y <= self.y+self.height){
+	if(girl.x + girl.width >= self.x && girl.x <= self.x + self.width && girl.y <= self.y+self.height){
 		self.removeChild(self.bitmap);
 	}
 };
@@ -24,7 +24,7 @@ function addCoin(){
 	//设定硬币的位置
 	for(var i = 0; i < coinlen; i++){
 		if(i==0){
-			coin[i].x = Math.random()*LGlobal.width+mario.x;
+			coin[i].x = Math.random()*LGlobal.width+girl.x;
 		}else{
 			coin[i].x = coin[i-1].x+26;
 		}	
