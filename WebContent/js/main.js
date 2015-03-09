@@ -15,8 +15,10 @@ var coinSpeed = 0;//添加硬币的速度
 var MOVE_STEP = 6,HEIGHT_STEP = 100;//mario向右走的宽度和向上跳的高度
 var EN_STEP = 9;//蘑菇速度
 var imgList = {};
+var coin = {};
 var bitmapDataList = [];
 var STEP = 48;
+var coinlen = 0;
 var pass = 1;//关卡
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
@@ -186,7 +188,7 @@ function onframe(){
 
 	mario.changeAction();	
 	
-	if(mario.x+40 >= enemy.x && mario.x <= enemy.x+30 && mario.y==320){
+	if(mario.x+40 >= enemy.x && mario.x <= enemy.x+30 && mario.y==LGlobal.height-35-mario.height){
 		mario.Big();
 //		backLayer.removeEventListener(LEvent.ENTER_FRAME,onframe);
 //		return;
@@ -204,9 +206,7 @@ function onframe(){
         ){  
             bulletLayer.removeChild(bulletLayer.childList[key]);  
 		}  
-	}
-	
-	
+	}	
 	if(mario.moveType == "shoot"){
 		mario.shoot();
 	}

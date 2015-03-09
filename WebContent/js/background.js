@@ -33,22 +33,13 @@ Background.prototype.run = function(){
 			var _child = ladderLayer.childList[key];
 			_child._charaOld = _child.x;//上一次位置的横坐标
 			_child.x -= MOVE_STEP;
-			
-//			LGlobal.setDebug(true);
-//			trace(mario.x+34);
-//			trace(_child.x);
-//			while(mario.x+34 <= _child._charaOld && mario.x+34 >=_child.x && mario.moveType != "up"){
-//				MOVE_STEP = 0;	
-//				_child.x = mario.x + 34;
-//			}
-			if(mario.x > _child.x+50){
-//				MOVE_STEP = 10;
-				if(mario.small){
-					mario.y = 318;
-				}else{
-					mario.y = 300;
-				}
+			if(mario.x > _child.x+_child.width){
+				mario.y = LGlobal.height-35-mario.height;
 			}
+		}
+		//移动硬币
+		for(var i=0;i<coinlen;i++){
+			coin[i].x -= MOVE_STEP;
 		}
 		if(self.bitmap02.x < -self.bitmap01.getWidth()){
 			self.bitmap01.x = self.bitmap02.x;
@@ -69,17 +60,12 @@ Background.prototype.run = function(){
 			var _child = ladderLayer.childList[key];
 			_child._charaOld = _child.x;
 			_child.x += MOVE_STEP;
-//			while(mario.x >= _child._charaOld + 50 && mario.x <= _child.x + 50 && mario.moveType != "up"){
-//				MOVE_STEP = 0;
-//				_child.x = mario.x + 34;
-//			}
-			if(mario.x+32 < _child.x){
-				if(mario.small){
-					mario.y = 318;
-				}else{
-					mario.y = 300;
-				}
+			if(mario.x+mario.width < _child.x){
+				mario.y = LGlobal.height-35-mario.height;
 			}
+		}
+		for(var i=0;i<coinlen;i++){
+			coin[i].x += MOVE_STEP;
 		}
 		if(self.bitmap01.x > 0){
 			self.bitmap01.x = -self.bitmap01.getWidth();

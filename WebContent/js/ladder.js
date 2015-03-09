@@ -19,6 +19,7 @@ Ladder01.prototype.setView = function(){
 	var self = this;
 	self.bitmap = new LBitmap(new LBitmapData(imgList["pillar"]));
 	self.height = self.bitmap.getHeight();
+	self.width = self.bitmap.getWidth();
 	self.addChild(self.bitmap);
 };
 
@@ -40,7 +41,7 @@ floor1.prototype.hitRun = function(){
 	if(self.ctrlIndex >= 40){
 		self.parent.removeChild(this);
 	}else if(self.ctrlIndex == 20){
-		self.bitmap.bitmapData.setCoordinate(50,0);
+		self.bitmap.bitmapData.setCoordinate(50,20);
 	}
 };
 //阶梯2
@@ -59,7 +60,6 @@ floor2.prototype.hitRun = function (){
 	self.callParent("hitRun",arguments);
 	if(self.hit)return;
 	self.hit = true;
-	self.child.hp -= 1;//血量减1
 };
 //阶梯实例化
 function ladderInit(){
