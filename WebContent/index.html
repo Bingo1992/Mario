@@ -2,13 +2,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>超级玛丽</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
-<link rel="icon" href="images/Mario.ico
-">
+<title>奔跑吧，女孩</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=yes">
+<link rel="icon" href="images/Mario.ico">
 <script type="text/javascript" src="js/lufylegend-1.5.1.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript" src="js/gameBegin.js"></script>
+<script type="text/javascript" src="js/GameBegin.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/enemy.js"></script>
 <script type="text/javascript" src="js/player.js"></script>
@@ -18,9 +17,8 @@
 <script type="text/javascript" src="js/coin.js"></script>
 <!-- <script type="text/javascript" src="js/database.js"></script> -->
 </head>
-<body>
-	<div id="mylegend">loading...	    
-	</div> 
+<body style="margin: 0px 0px 0px 0px;padding: 0px 0px 0px 0px">
+	<div id="mylegend">loading...</div> 
     <script>
         function doScroll() {
             if(window.pageYOffset === 0) {
@@ -35,9 +33,11 @@
         window.onorientationchange = function() {
             setTimeout(doScroll, 100);
         };
+        
         window.onresize = function() {
             setTimeout(doScroll, 100);
         };
+
     </script>
 </body>
 </html>

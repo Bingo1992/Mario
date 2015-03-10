@@ -36,12 +36,14 @@ floor1.prototype.setView = function(){
 };
 floor1.prototype.hitRun = function(){
 	var self = this;
+
 	self.callParent("hitRun",arguments);
 	self.ctrlIndex++;
 	if(self.ctrlIndex >= 40){
 		self.parent.removeChild(this);
 	}else if(self.ctrlIndex == 20){
-		self.bitmap.bitmapData.setCoordinate(50,20);
+		alert('d')
+		self.bitmap.bitmapData.setCoordinate(50,0);
 	}
 };
 //阶梯2
@@ -69,10 +71,11 @@ function ladderInit(){
 //添加阶梯
 function addladder(){
 	var aladder;
-	var index = Math.random() * 3;
-	if(index < 1){
+	var index = Math.random() * 5;
+	if(index < 1 || index >= 3){
 		aladder = new Ladder01();
-		aladder.y = 286;
+		aladder.y = Math.random()*130 + 70;
+		ladderY = aladder.y;
 	}
 	else if(index < 2){
 		aladder = new floor1();
@@ -82,7 +85,7 @@ function addladder(){
 		aladder = new floor2();
 		aladder.y = 340;
 	}
-	aladder.x = Math.random()*LGlobal.width+mario.x;	
+	aladder.x = Math.random()*LGlobal.width+girl.x;	
 	ladderLayer.addChild(aladder);
 }
 

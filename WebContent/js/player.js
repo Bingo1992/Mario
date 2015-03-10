@@ -5,8 +5,8 @@ function Player(){
 	self.isMove = false;
 	self.canshoot = false;
 	self.small = true;
-	var list = LGlobal.divideCoordinate(240,240,4,4);
-	var bitmapdata = new LBitmapData(imgList["mario"],0,0,60,60);
+	var list = LGlobal.divideCoordinate(384,384,4,4);
+	var bitmapdata = new LBitmapData(imgList["girl"],0,0,96,96);
 	self.oldwidth = bitmapdata.width;
 	self.oldheight = bitmapdata.height;
 	self.x = 200;
@@ -24,12 +24,13 @@ Player.prototype.changeAction = function(){
 	if(self.moveType == "shoot"){
 		self.canshoot = true;
 	}
-	
-	if(mario.moveType == "up"){
+	LGlobal.setDebug(true);
+//		trace(self.y);
+	if(girl.moveType == "up"){
 		self.y -= HEIGHT_STEP;
-		self.isMove = true;
-		LGlobal.setDebug(true);
-		trace(self.height);
+		self.anime.setAction(0, 0);
+		self.isMove = false;
+		trace(self.y);
 		//阶梯
 		for(var key1 in ladderLayer.childList){
 			var ladderChild = ladderLayer.childList[key1];
@@ -60,18 +61,19 @@ Player.prototype.changeAction = function(){
 //						}
 //					},500);
 //			}
+			self._oldy = LGlobal.height-70-self.height;
 			if(self.x+self.width >= ladderChild.x && self.x <= ladderChild.x+ladderChild.width && self.y<=240){
-				self.y = LGlobal.height-35-self.height - ladderChild.height;
+				self.y = self._oldy - ladderChild.height - ladderY;
 				ladderChild.hitRun();
 			}else{
 				setTimeout(function(){
-					self.y=LGlobal.height-35-self.height;
+					self.y=self._oldy;
 				},500);
 			}
 		}
 		if(key1 == null){
 			setTimeout(function(){
-				self.y=LGlobal.height-35-self.height;
+				self.y=self._oldy;
 			},500);
 		}			
 	}		
@@ -110,9 +112,9 @@ Player.prototype.Small = function(){
 	self.scaleX = 0.7;
 	self.scaleY = 0.7;
 	self.x = 200;
-	self.width = self.oldwidth * 0.7;
-	self.height = self.oldheight * 0.7;
-	self.y = LGlobal.height-35-self.height;
+	self.width = self.oldwidth * 0.3;
+	self.height = self.oldheight * 0.3;
+	self.y = LGlobal.height-70-self.height;
 };
 
 Player.prototype.Big = function(){
@@ -121,7 +123,7 @@ Player.prototype.Big = function(){
 	self.canshoot = true;
 	self.scaleX = 1;
 	self.scaleY = 1;
-	self.width = self.oldwidth * 1;
-	self.height = self.oldheight * 1;
-	self.y = LGlobal.height-35-self.height;
+	self.width = self.oldwidth * 0.6;
+	self.height = self.oldheight * 0.6;
+	self.y = LGlobal.height-70-self.height;
 };

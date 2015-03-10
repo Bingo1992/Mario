@@ -19,7 +19,7 @@ function Bullet(params){
 Bullet.prototype.onframe = function(){
 	var self = this;
 	//根据人物的动作判断向左还是向右
-	var action = mario.anime.getAction();
+	var action = girl.anime.getAction();
 	switch(action[0]){
 		case 0: break;
 		case 1: break;

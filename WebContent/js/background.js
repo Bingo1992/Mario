@@ -21,20 +21,23 @@ function Background(){
 Background.prototype.run = function(){
 	var self = this;
 	if(self.moveType == "right"){
-		mario.isMove = true;
-		mario.anime.setAction(2);
+		girl.isMove = true;
+		girl.anime.setAction(0);
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
-		times.text = score++;
-		localStorage.setItem("distance",score);
 		//移动阶梯
+		
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
+			if(_child.x < -_child.getWidth()){
+				ladderLayer.removeChild(_child);				
+			}
 			_child._charaOld = _child.x;//上一次位置的横坐标
 			_child.x -= MOVE_STEP;
-			if(mario.x > _child.x+_child.width){
-				mario.y = LGlobal.height-35-mario.height;
+	
+			if(girl.x > _child.x+_child.width-10){
+				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
 		//移动硬币
@@ -48,20 +51,17 @@ Background.prototype.run = function(){
 		}
 		
 	}else if(self.moveType == "left"){
-		mario.isMove = true;
-		mario.anime.setAction(1);
+		girl.isMove = true;
+		girl.anime.setAction(1);
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
-		times.text = score--;
-		//离线存储当前数据
-		localStorage.setItem("distance",score);
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			_child._charaOld = _child.x;
 			_child.x += MOVE_STEP;
-			if(mario.x+mario.width < _child.x){
-				mario.y = LGlobal.height-35-mario.height;
+			if(girl.x+girl.width < _child.x){
+				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
 		for(var i=0;i<coinlen;i++){
@@ -137,18 +137,38 @@ function addScore(){
 	labelText.size = 14;
 	labelText.x = 10;
 	labelText.y = 20;
-	labelText.text = "Distance:";
+	labelText.text = "score:";
 	backLayer.addChild(labelText);
+	
+	scores = new LTextField();
+	scores.color = "#fff";
+	scores.font = "HG行書体";
+	scores.size = 14;
+	scores.x = 120;
+	scores.y = 20;
+	if(scores.text == null){
+		scores.text = "0";
+	}else{
+		scores.text = localStorage.getItem("distance");
+	}
+	backLayer.addChild(scores);
+	
+	labelText2 = new LTextField();
+	labelText2.color = "#ffffff";
+	labelText2.font = "HG行書体";
+	labelText2.size = 14;
+	labelText2.x = 200;
+	labelText2.y = 20;
+	labelText2.text = "time:";
+	backLayer.addChild(labelText2);
+	
 	times = new LTextField();
 	times.color = "#fff";
 	times.font = "HG行書体";
 	times.size = 14;
-	times.x = 120;
+	times.x = 260;
 	times.y = 20;
-	if(times.text == null){
-		times.text = "0";
-	}else{
-		times.text = localStorage.getItem("distance");
-	}
 	backLayer.addChild(times);
+	
+	
 }
