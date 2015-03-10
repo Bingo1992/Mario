@@ -173,9 +173,7 @@ function down(event){
 function onframe(){
 	LGlobal.setDebug(true);
 	enemy.run();
-	for(var i=0;i<coinlen;i++){
-		coin[i].onframe();
-	}
+
 	if(girl.isMove){
 		girl.onframe();
 		//执行100次onframe添加一个阶梯

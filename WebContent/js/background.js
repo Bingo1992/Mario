@@ -38,7 +38,6 @@ Background.prototype.run = function(){
 	
 			if(girl.x > _child.x+_child.width-10){
 				girl.y = LGlobal.height-70-girl.height;
-			}
 		}
 		//移动硬币
 		for(var i=0;i<coinlen;i++){

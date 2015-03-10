@@ -7,6 +7,7 @@ function Player(){
 	self.small = true;
 	var list = LGlobal.divideCoordinate(384,384,4,4);
 	var bitmapdata = new LBitmapData(imgList["girl"],0,0,96,96);
+
 	self.oldwidth = bitmapdata.width;
 	self.oldheight = bitmapdata.height;
 	self.x = 200;
@@ -24,8 +25,6 @@ Player.prototype.changeAction = function(){
 	if(self.moveType == "shoot"){
 		self.canshoot = true;
 	}
-	LGlobal.setDebug(true);
-//		trace(self.y);
 	if(girl.moveType == "up"){
 		self.y -= HEIGHT_STEP;
 		self.anime.setAction(0, 0);
