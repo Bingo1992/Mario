@@ -1,16 +1,17 @@
-function Enemy(x,y,shootX,shootY,bitmapdata,hp){
+function Enemy(name){
 	base(this,LSprite,[]);
 	var self = this;
-//	self.bitmapData = new LBitmapData(imgList["enemy"]);
-//	self.bitmap04 = new LBitmap(self.bitmapData);
-//	self.addChild(self.bitmap04);
-	
-	var list = LGlobal.divideCoordinate(94, 30, 1, 3);
-	var bitmapdata = new LBitmapData(imgList["enemy"],0,0,31,30);
-	self.anime = new LAnimation(self,bitmapdata,list);
-	self.x = 500;
-	self.y = 332;
-//	self.anime.setAction(2);
+	self.name = name;
+	if(name=="enemy"){
+		self.list = LGlobal.divideCoordinate(94, 30, 1, 3);
+		self.bitmapdata = new LBitmapData(imgList[name],0,0,31,30);
+	}else if(name == "gui" || name == "bird"){
+		self.list = LGlobal.divideCoordinate(384, 96, 1, 4);
+		self.bitmapdata = new LBitmapData(imgList[name],0,0,96,96);
+	}	
+	self.anime = new LAnimation(self,self.bitmapdata,self.list);
+	self.x = LGlobal.width;
+	self.y = LGlobal.height - 35 - self.bitmapdata.height;
 }
 Enemy.prototype.run =  function(){
 	var self = this;

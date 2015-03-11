@@ -23,15 +23,16 @@ var coinlen = 0;
 var pass = 1;//关卡
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
-	{name:"player",path:"images/player.png"},
 	{name:"girl",path:"images/girl.png"},
 	{name:"bg",path:"images/mario.jpg"},
 	{name:"map",path:"images/map.png"},
-	{name:"pillar",path:"images/stone.png"},
+	{name:"stone",path:"images/stone.png"},
 	{name:"floor1",path:"images/floor1.png"},
 	{name:"floor2",path:"images/floor2.png"},
 	{name:"bullet",path:"images/bullet.png"},
 	{name:"enemy",path:"images/enemy.png"},
+	{name:"gui",path:"images/gui.png"},
+	{name:"bird",path:"images/bird.png"},
 	{name:"coin",path:"images/coin.png"}
 );
 
@@ -67,8 +68,8 @@ function gameInit(){
 //	backLayer.addChild(title);
 //	//添加点击事件
 //	backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
-//	gameStart();
-	addMap();
+	gameStart();
+//	addMap();
 }
 
 //添加地图，表示关数
@@ -96,7 +97,7 @@ function gameStart(){
 	//硬币实例化
 	coinInit();
 	//添加障碍物
-	enemy = new Enemy();
+	enemy = new Enemy("enemy");
 	background.addChild(enemy);
 	//添加玩家
 	girl = new Player();
@@ -149,6 +150,7 @@ function up(event){
 }
 
 function down(event){
+	
 	if(event.keyCode == 37){
 		background.moveType = "left";
 		
@@ -179,11 +181,11 @@ function onframe(){
 		//执行100次onframe添加一个阶梯
 		if(addSpeed -- < 0){
 			addSpeed = 10;
-			addladder();
-		}	
+			addladder();			
+		}
 		if(coinSpeed -- < 0){
-			coinSpeed = 80;
-			addCoin();
+			coinSpeed = 13;
+			addCoin();			
 		}
 	}
 	

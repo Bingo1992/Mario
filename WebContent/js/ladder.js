@@ -1,3 +1,4 @@
+var stoneX,stoneY,stonenum;
 function Ladder(){
 	base(this,LSprite,[]);
 	var self = this;
@@ -6,18 +7,17 @@ function Ladder(){
 	self.setView();
 }
 
-//设定不同阶梯
 Ladder.prototype.setView = function(){};
 Ladder.prototype.hitRun = function (){};
-//pillar
+//stone
 function Ladder01(){
 	base(this,Ladder,[]);
 }
 
-//将阶梯显示在canvas上
+//将石阶显示在canvas上
 Ladder01.prototype.setView = function(){
 	var self = this;
-	self.bitmap = new LBitmap(new LBitmapData(imgList["pillar"]));
+	self.bitmap = new LBitmap(new LBitmapData(imgList["stone"],0,0,Math.ceil(Math.random()*5)+150,30));
 	self.height = self.bitmap.getHeight();
 	self.width = self.bitmap.getWidth();
 	self.addChild(self.bitmap);
@@ -42,7 +42,6 @@ floor1.prototype.hitRun = function(){
 	if(self.ctrlIndex >= 40){
 		self.parent.removeChild(this);
 	}else if(self.ctrlIndex == 20){
-		alert('d')
 		self.bitmap.bitmapData.setCoordinate(50,0);
 	}
 };
@@ -71,21 +70,24 @@ function ladderInit(){
 //添加阶梯
 function addladder(){
 	var aladder;
-	var index = Math.random() * 5;
-	if(index < 1 || index >= 3){
+	var index = Math.random() * 6;
+	
+//	if(index <= 2 || index >= 4){
 		aladder = new Ladder01();
-		aladder.y = Math.random()*130 + 70;
-		ladderY = aladder.y;
-	}
-	else if(index < 2){
-		aladder = new floor1();
-		aladder.y = 340;
-	}
-	else if(index < 3){
-		aladder = new floor2();
-		aladder.y = 340;
-	}
-	aladder.x = Math.random()*LGlobal.width+girl.x;	
+		aladder.x = LGlobal.width;
+		aladder.y = 30*8 + 30*(8*Math.random() >>> 0);		
+		stonenum = aladder.width/50;
+//		addCoin();
+//	}
+//	else if(index < 3){
+//		aladder = new floor1();
+//		aladder.y = 340;
+//	}
+//	else if(index < 4){
+//		aladder = new floor2();
+//		aladder.y = 340;
+//	}
+	aladder.x = LGlobal.width;
 	ladderLayer.addChild(aladder);
 }
 
