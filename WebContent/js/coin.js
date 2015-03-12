@@ -28,11 +28,7 @@
 //	}
 //	//设定硬币的位置
 //	for(var i = 0; i < coinlen; i++){
-//		if(i==0){
-//			coin[i].x = Math.random()*LGlobal.width+girl.x;
-//		}else{
-//			coin[i].x = coin[i-1].x+30;
-//		}	
+//		coin[i].x = Math.random()*LGlobal.width+girl.x+30*i;
 //		coin[i].y = coinY[index];//三种高度
 //		coinLayer.addChild(coin[i]);
 //	}
@@ -40,5 +36,8 @@
 function Coin(){
 	base(this,LSprite,[]);
 	var self = this;
-	
+	self.bitmap = new LBitmap(new LBitmapData(imgList["coin"]));
+	self.width = self.bitmap.getWidth();
+	self.height = self.bitmap.getHeight();
+	self.addChild(self.bitmap);
 }

@@ -6,10 +6,7 @@ var isMove = false;
 var small = true;//girl是否处于小的状态
 var score = 0;//统计分数
 var isOnladder = false;//在阶梯上
-var islive = true;
-var hx; //阶梯的横坐标
 var canshoot;//是否射击炮弹
-var shootx = 0;//炮口相对人物的位置
 var addSpeed = 0;//添加阶梯的速度
 var coinSpeed = 0;//添加硬币的速度
 var MOVE_STEP = 6,HEIGHT_STEP = 100;//girl向右走的宽度和向上跳的高度
@@ -21,6 +18,9 @@ var bitmapDataList = [];
 var STEP = 48;
 var coinlen = 0;
 var pass = 1;//关卡
+var keylock = false;//锁定按键
+var keyCtrl = new Array();
+var keyList = [{keyCode:0,time:0},{keyCode:0,time:0},{keyCode:0,time:0}];
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
 	{name:"girl",path:"images/girl.png"},
@@ -35,7 +35,7 @@ var imgData = new Array(
 	{name:"bird",path:"images/bird.png"},
 	{name:"coin",path:"images/coin.png"}
 );
-
+var KEY = {LEFT:65,RIGHT:68,JUMP:75,SHOOT:74};
 function main(){
 	//	背景层初始化
 	backLayer = new LSprite();
@@ -95,7 +95,7 @@ function gameStart(){
 	//阶梯实例化
 	ladderInit();
 	//硬币实例化
-	coinInit();
+//	coinInit();
 	//添加障碍物
 	enemy = new Enemy("enemy");
 	background.addChild(enemy);
@@ -144,31 +144,70 @@ function mousedown(event){
 }
 
 function up(event){
+	keyCtrl[event.keyCode] = false;
 	background.moveType = null;
 	girl.moveType = null;
 	girl.isMove = false;
 }
 
+
 function down(event){
-	
-	if(event.keyCode == 37){
-		background.moveType = "left";
-		
-	}else if(event.keyCode == 39){
-		background.moveType = "right";
+//	if(keylock || keyCtrl[event.keyCode])return;
+	var keyThis = {keyCode:event.keyCode,time:(new Date()).getTime()};
+	var keyLast01 = keyList[0];
+	var keyLast02 = keyList[1];
+	keyCtrl[event.keyCode] = true;
+	keyList.unshift(keyThis);
+	keyList.pop();
+	switch(event.keyCode){
+	case KEY.LEFT:
+		if(keyLast01.keyCode == KEY.JUMP &&  keyThis.time - keyLast01.time < 500){
+			background.moveType = "left";
+			girl.moveType = "jump";
+		}else{
+			background.moveType = "left";
+		}
+		 break;
+	case KEY.RIGHT:
+		if(keyLast01.keyCode == KEY.JUMP &&  keyThis.time - keyLast01.time < 500){
+			background.moveType = "right";
+			girl.moveType = "jump";
+		}else{
+			background.moveType = "right";
+		}
+		break;
+	case KEY.JUMP:
+		if(keyLast01.keyCode == KEY.RIGHT &&  keyThis.time - keyLast01.time < 500){
+			background.moveType = "right";
+			girl.moveType = "jump";
+		}else if(keyLast01.keyCode == KEY.LEFT &&  keyThis.time - keyLast01.time < 500){
+			background.moveType = "left";
+			girl.moveType = "jump";
+		}else if(keyLast01.keyCode == KEY.JUMP && keyLast02.keyCode == KEY.JUMP && keyThis.time - keyLast02.time < 200){
+			girl.moveType = "power_jump";
+		}else{
+			girl.moveType = "jump";
+		}
+		break;
 	}
-	if(event.keyCode == 38){
-		//按一次向上键跳一次
-		if(girl.moveType == "up")return;
-		girl.moveType = "up";
-	}
-	if(event.keyCode == 65){
-		//按一次A发射子弹
-		if(girl.moveType == "shoot")return;
-		girl.moveType = "shoot";
-	}
+//	if(event.keyCode == 37){
+//		background.moveType = "left";
+//		
+//	}else if(event.keyCode == 39){
+//		background.moveType = "right";
+//	}
+//	if(event.keyCode == 38){
+//		//按一次向上键跳一次
+//		if(girl.moveType == "up")return;
+//		girl.moveType = "up";
+//	}
+//	if(event.keyCode == 65){
+//		//按一次A发射子弹
+//		if(girl.moveType == "shoot")return;
+//		girl.moveType = "shoot";
+//	}
 	background.run();
-	
+	girl.changeAction();
 }
 
 //循环播放
@@ -183,10 +222,10 @@ function onframe(){
 			addSpeed = 10;
 			addladder();			
 		}
-		if(coinSpeed -- < 0){
-			coinSpeed = 13;
-			addCoin();			
-		}
+//		if(coinSpeed -- < 0){
+//			coinSpeed = 13;
+//			addCoin();			
+//		}
 	}
 	
 	var str = (new Date().getTime() - startTime) + "";

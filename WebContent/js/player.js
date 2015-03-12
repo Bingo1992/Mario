@@ -25,7 +25,7 @@ Player.prototype.changeAction = function(){
 	if(self.moveType == "shoot"){
 		self.canshoot = true;
 	}
-	if(girl.moveType == "up"){
+	if(girl.moveType == "jump"){
 		self.y -= HEIGHT_STEP;
 		self.anime.setAction(0, 0);
 		self.isMove = false;
