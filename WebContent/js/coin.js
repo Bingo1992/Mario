@@ -43,12 +43,13 @@ function Coin(){
 }
 Coin.add = function(aladder){
 	coinlen = Math.ceil(Math.random()*5)+1;//随机产生2-6个硬币
+	var sx = aladder.x +(aladder.width-stonenum*50)*0.5;
 	for (var j=0; j<coinlen; j++){
 		coin[j] = new Coin();
 	}
 	//设定硬币的位置
 	for(var i = 0; i < coinlen; i++){
-		coin[i].x = LGlobal.width+30*i;
+		coin[i].x = sx + 30*i;
 		coin[i].y = aladder.y-30;//三种高度
 		coinLayer.addChild(coin[i]);
 	}
