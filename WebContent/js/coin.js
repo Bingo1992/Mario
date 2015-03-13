@@ -16,10 +16,10 @@
 //		localStorage.setItem("distance",score);
 //	}
 //};
-//function coinInit(){
-//	coinLayer = new LSprite();
-//	backLayer.addChild(coinLayer);
-//}
+function coinInit(){
+	coinLayer = new LSprite();
+	backLayer.addChild(coinLayer);
+}
 //function addCoin(){	
 //	coinlen = Math.ceil(Math.random()*5)+1;//随机产生2-6个硬币
 //	var index = Math.ceil(Math.random()*2)+1;
@@ -41,3 +41,15 @@ function Coin(){
 	self.height = self.bitmap.getHeight();
 	self.addChild(self.bitmap);
 }
+Coin.add = function(aladder){
+	coinlen = Math.ceil(Math.random()*5)+1;//随机产生2-6个硬币
+	for (var j=0; j<coinlen; j++){
+		coin[j] = new Coin();
+	}
+	//设定硬币的位置
+	for(var i = 0; i < coinlen; i++){
+		coin[i].x = LGlobal.width+30*i;
+		coin[i].y = aladder.y-30;//三种高度
+		coinLayer.addChild(coin[i]);
+	}
+};

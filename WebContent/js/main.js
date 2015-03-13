@@ -95,7 +95,7 @@ function gameStart(){
 	//阶梯实例化
 	ladderInit();
 	//硬币实例化
-//	coinInit();
+	coinInit();
 	//添加障碍物
 	enemy = new Enemy("enemy");
 	background.addChild(enemy);

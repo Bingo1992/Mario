@@ -77,7 +77,7 @@ function addladder(){
 		aladder.x = LGlobal.width;
 		aladder.y = 30*8 + 30*(8*Math.random() >>> 0);		
 		stonenum = aladder.width/50;
-//		addCoin();
+		Coin.add(aladder);
 //	}
 //	else if(index < 3){
 //		aladder = new floor1();
