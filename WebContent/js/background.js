@@ -27,9 +27,9 @@ Background.prototype.run = function(){
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
 		//移动硬币
-		for(var i=0;i<coinlen;i++){
-			coin[i].x -= MOVE_STEP;
-		}
+//		for(var i=0;i<coinlen;i++){
+//			coin[i].x -= MOVE_STEP;
+//		}
 		//移动阶梯		
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
@@ -56,9 +56,9 @@ Background.prototype.run = function(){
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
-		for(var i=0;i<coinlen;i++){
-			coin[i].x += MOVE_STEP;
-		}
+//		for(var i=0;i<coinlen;i++){
+//			coin[i].x += MOVE_STEP;
+//		}
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			_child._charaOld = _child.x;

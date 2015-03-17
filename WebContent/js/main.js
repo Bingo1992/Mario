@@ -96,8 +96,7 @@ function gameStart(){
 	
 	//阶梯实例化
 	ladderInit();
-	//硬币实例化
-	coinInit();
+
 	starInit();
 	//添加障碍物
 	enemy = new Enemy("enemy");
@@ -112,7 +111,6 @@ function gameStart(){
 	bulletLayer = new LSprite();
 	backLayer.addChild(bulletLayer);
 	girl.setBullet(0);
-	
 	backLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
 	backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
 	backLayer.addEventListener(LMouseEvent.MOUSE_UP,mouseup);

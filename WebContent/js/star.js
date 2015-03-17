@@ -11,7 +11,7 @@ function starInit(){
 	starLayer = new LSprite();
 	backLayer.addChild(starLayer);
 }
-Star.prototype.add =  function(){
+Star.prototype.add =  function(aladder){
 	var self = this;
 	self.x = LGlobal.width;
 	self.y = LGlobal.height -70 - (Math.random()*32);
