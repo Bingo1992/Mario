@@ -26,8 +26,11 @@ Background.prototype.run = function(){
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
-		//移动阶梯
-		
+		//移动硬币
+		for(var i=0;i<coinlen;i++){
+			coin[i].x -= MOVE_STEP;
+		}
+		//移动阶梯		
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			if(_child.x < -_child.getWidth()){
@@ -40,10 +43,7 @@ Background.prototype.run = function(){
 				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
-		//移动硬币
-		for(var i=0;i<coinlen;i++){
-			coin[i].x -= MOVE_STEP;
-		}
+		
 		if(self.bitmap02.x < -self.bitmap01.getWidth()){
 			self.bitmap01.x = self.bitmap02.x;
 			self.bitmap02.x = self.bitmap01.x+self.bitmap01.getWidth();
@@ -56,6 +56,9 @@ Background.prototype.run = function(){
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
+		for(var i=0;i<coinlen;i++){
+			coin[i].x += MOVE_STEP;
+		}
 		for(key in ladderLayer.childList){
 			var _child = ladderLayer.childList[key];
 			_child._charaOld = _child.x;
@@ -64,9 +67,7 @@ Background.prototype.run = function(){
 				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
-		for(var i=0;i<coinlen;i++){
-			coin[i].x += MOVE_STEP;
-		}
+		
 		if(self.bitmap01.x > 0){
 			self.bitmap01.x = -self.bitmap01.getWidth();
 			self.bitmap02.x = self.bitmap01.x+self.bitmap01.getWidth();

@@ -71,13 +71,17 @@ function ladderInit(){
 function addladder(){
 	var aladder;
 	var index = Math.random() * 6;
+	LGlobal.setDebug(true);
 	
 //	if(index <= 2 || index >= 4){
 		aladder = new Ladder01();
 		aladder.x = LGlobal.width;
-		aladder.y = 30*8 + 30*(8*Math.random() >>> 0);		
-		stonenum = aladder.width/50;
+//		aladder.y = 30*8 + 30*(8*Math.random() >>> 0);	
+		aladder.y = LGlobal.height - aladder.height - 30*(Math.random()*2);
+		stonenum = parseInt(aladder.width/50);
+		trace(stonenum);
 		Coin.add(aladder);
+//		Star.add(aladder);
 //	}
 //	else if(index < 3){
 //		aladder = new floor1();

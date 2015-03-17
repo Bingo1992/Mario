@@ -1,7 +1,8 @@
 var loadingLayer,backLayer,ladderLayer;
 var bitmap01,bitmap02,bitmap03,bitmap04,background; //背景层
 //1,2,3背景  4蘑菇
-var anime,girl,ladder;
+var anime,girl,player,ladder;
+var direction;
 var isMove = false;
 var small = true;//girl是否处于小的状态
 var score = 0;//统计分数
@@ -23,7 +24,7 @@ var keyCtrl = new Array();
 var keyList = [{keyCode:0,time:0},{keyCode:0,time:0},{keyCode:0,time:0}];
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
-	{name:"girl",path:"images/girl.png"},
+	{name:"girl",path:"images/girl2.png"},
 	{name:"bg",path:"images/mario.jpg"},
 	{name:"map",path:"images/map.png"},
 	{name:"stone",path:"images/stone.png"},
@@ -33,9 +34,10 @@ var imgData = new Array(
 	{name:"enemy",path:"images/enemy.png"},
 	{name:"gui",path:"images/gui.png"},
 	{name:"bird",path:"images/bird.png"},
-	{name:"coin",path:"images/coin.png"}
+	{name:"coin",path:"images/coin.png"},
+	{name:"star",path:"images/star.png"}
 );
-var KEY = {LEFT:65,RIGHT:68,JUMP:75,SHOOT:74};
+var KEY = {LEFT:65,RIGHT:68,JUMP:75,SHOOT:74,L:37,R:39,U:38,D:40};
 function main(){
 	//	背景层初始化
 	backLayer = new LSprite();
@@ -96,6 +98,7 @@ function gameStart(){
 	ladderInit();
 	//硬币实例化
 	coinInit();
+	starInit();
 	//添加障碍物
 	enemy = new Enemy("enemy");
 	background.addChild(enemy);
@@ -135,11 +138,11 @@ function mouseup(event){
 
 function mousedown(event){
 	if(event.offsetX<=LGlobal.width*0.5){
-		down({keycode:37});
+		down({keycode:65});
 	}else if(event.offsetX>LGlobal.width*0.5){
-		down({keycode:39});
+		down({keycode:68});
 	}else if(event.offsetY>=LGlobal.height*0.5){
-		down({keycode:38});
+		down({keycode:75});
 	}
 }
 
@@ -189,6 +192,18 @@ function down(event){
 			girl.moveType = "jump";
 		}
 		break;
+	case KEY.U:
+		 player.moveType = "UP";
+		 break;
+	case KEY.D:
+		 player.moveType = "DOWN";
+		 break;
+	case KEY.L:
+		 player.moveType = "LEFT";
+		 break;
+	case KEY.R:
+		 player.moveType = "RIGHT";
+		 break;
 	}
 //	if(event.keyCode == 37){
 //		background.moveType = "left";

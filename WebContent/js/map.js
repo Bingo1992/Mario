@@ -10,7 +10,21 @@ var mapData = [
 					[18,18,16,16,85,16,16,16,16,21,21,17,17,17,18],    
 					[18,18,18,18,18,18,18,18,18,55,55,18,18,18,18]
                ]; 
-
+function keyup(event){
+	player.moveType = null;
+}
+function keydown(event){
+	if(event.keycode == 37){
+		player.moveType = "LEFT";
+	}else if(event.keycode == 38){
+		player.moveType = "UP";
+	}else if(event.keycode == 39){
+		player.moveType = "RIGHT";
+	}else if(event.keycode == 40){
+		player.moveType = "DOWN";
+	}
+	player.onmove();
+}
 function LTileMap(data,img,width,height){  
     var self = this;  
     base(self,LSprite,[]);  
@@ -64,18 +78,27 @@ LTileMap.prototype.pass = function(){
 	var mapdata = self.mapData; 
 	var partWidth = self.partWidth;  
 	var partHeight = self.partHeight;  
-	var player = new Player();
+	player = new Player();
 	player.scaleX = 0.5;
 	player.scaleY = 0.5;
 	for(var i=0;i<mapdata.length;i++){  
         for(var j=0;j<mapdata[0].length;j++){  
             index = mapdata[i][j]; 
             self.addChild(player); 
-            if(pass==1 && index == 82){            	  
+//            player.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
+//            player.addEventListener(LMouseEvent.MOUSE_UP,mouseup);
+//            player.addEventListener(LEvent.ENTER_FRAME,onframe);
+            if(!LGlobal.canTouch){
+        		LEvent.addEventListener(window,LKeyboardEvent.KEY_DOWN,keydown);
+        		LEvent.addEventListener(window,LKeyboardEvent.KEY_UP,keyup);
+        	}    
+            if(pass == 1 && index == 82){            	  
             	 player.x = j*partWidth + self.x;    
             	 player.y = i*partHeight + self.y; 
             	 player.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
-            }           
+            }     
+        	
         }  
     }  
 };
+

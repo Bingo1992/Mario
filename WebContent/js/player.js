@@ -5,6 +5,7 @@ function Player(){
 	self.isMove = false;
 	self.canshoot = false;
 	self.small = true;
+	self.shift = false;//地图中移动
 	var list = LGlobal.divideCoordinate(384,384,4,4);
 	var bitmapdata = new LBitmapData(imgList["girl"],0,0,96,96);
 
@@ -17,6 +18,7 @@ function Player(){
 Player.prototype.onframe = function(){
 	var self = this;
 	self.anime.onframe();//循环播放list图	
+
 };
 
 //控制主角动作
@@ -25,7 +27,7 @@ Player.prototype.changeAction = function(){
 	if(self.moveType == "shoot"){
 		self.canshoot = true;
 	}
-	if(girl.moveType == "jump"){
+	if(self.moveType == "jump"){
 		self.y -= HEIGHT_STEP;
 		self.anime.setAction(0, 0);
 		self.isMove = false;
@@ -38,31 +40,9 @@ Player.prototype.changeAction = function(){
 				ladderLayer.removeChild(ladderChild);				
 			}
 			//若处于梯子周围并且跳跃则将其置于阶梯上
-//				if(self.small){
-//					if(self.x+32 >= ladderChild.x && self.x <= ladderChild.x+50 && self.y<=240){
-//						self.y = self.oldy - ladderChild.height;
-//						ladderChild.hitRun();
-//					}else{
-//						setTimeout(function(){
-//							if(self.small){
-//								self.y = self.oldy;
-//							}
-//						},500);
-//					}
-//					
-//				}else if(self.x+50 >= ladderChild.x && self.x <= ladderChild.x+50 && self.y<=240){
-//					self.y = self.oldy - ladderChild.height;
-//					ladderChild.hitRun();
-//				}else{
-//					setTimeout(function(){
-//						if(self.small){
-//							self.y = self.oldy;
-//						}
-//					},500);
-//			}
 			self._oldy = LGlobal.height-70-self.height;
 			if(self.x+self.width >= ladderChild.x && self.x <= ladderChild.x+ladderChild.width && self.y<=240){
-				self.y = self._oldy - ladderChild.height - ladderY;
+				self.y = ladderChild.y - ladderChild.height;
 				ladderChild.hitRun();
 			}else{
 				setTimeout(function(){
@@ -126,3 +106,25 @@ Player.prototype.Big = function(){
 	self.height = self.oldheight * 0.6;
 	self.y = LGlobal.height-70-self.height;
 };
+//地图上的移动
+Player.prototype.onmove = function(){
+	var self = this;
+	var ml = 32;
+	switch(self.moveType){
+	case "UP":
+		self.y -= ml;
+		break;
+	case "LEFT":
+		self.x -= ml;
+		self.anime.setAction(0);
+		break;
+	case "RIGHT":
+		self.x += ml;
+		self.anime.setAction(1);
+		break;
+	case "DOWN":
+		self.y += ml;
+		break;
+	}
+};
+
