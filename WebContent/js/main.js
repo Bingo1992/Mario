@@ -1,12 +1,9 @@
-var loadingLayer,backLayer,ladderLayer;
+var loadingLayer,backLayer,stoneLayer,starLayer;
 var bitmap01,bitmap02,bitmap03,bitmap04,background; //背景层
-//1,2,3背景  4蘑菇
-var anime,girl,player,ladder;
 var direction;
 var isMove = false;
 var small = true;//girl是否处于小的状态
 var score = 0;//统计分数
-var isOnladder = false;//在阶梯上
 var canshoot;//是否射击炮弹
 var addSpeed = 0;//添加阶梯的速度
 var coinSpeed = 0;//添加硬币的速度
@@ -14,7 +11,6 @@ var MOVE_STEP = 6,HEIGHT_STEP = 100;//girl向右走的宽度和向上跳的高�
 var EN_STEP = 9;//蘑菇速度
 var imgList = {};
 var coin = {};
-var ladderY = 0;//石头高度
 var bitmapDataList = [];
 var STEP = 48;
 var coinlen = 0;
@@ -41,7 +37,7 @@ var KEY = {LEFT:65,RIGHT:68,JUMP:75,SHOOT:74,L:37,R:39,U:38,D:40};
 function main(){
 	//	背景层初始化
 	backLayer = new LSprite();
-	backLayer.graphics.drawRect(1, "#000", [0,0,800,480], true, "#00E3E3");
+	backLayer.graphics.drawRect(1, "#000", [0,0,800,400], true, "#00E3E3");
 	//	背景显示
 	addChild(backLayer);	
 	//	进度条读取层
@@ -95,12 +91,13 @@ function gameStart(){
 	effect.snowing();  
 	
 	//阶梯实例化
-	ladderInit();
+	stoneInit();
 
 	starInit();
 	//添加障碍物
 	enemy = new Enemy("enemy");
 	background.addChild(enemy);
+
 	//添加玩家
 	girl = new Player();
 	girl.Small();
@@ -232,13 +229,9 @@ function onframe(){
 		girl.onframe();
 		//执行100次onframe添加一个阶梯
 		if(addSpeed -- < 0){
-			addSpeed = 10;
-			addladder();			
+			addSpeed = 8;
+			addstone();
 		}
-//		if(coinSpeed -- < 0){
-//			coinSpeed = 13;
-//			addCoin();			
-//		}
 	}
 	
 	var str = (new Date().getTime() - startTime) + "";

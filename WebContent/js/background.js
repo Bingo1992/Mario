@@ -31,10 +31,10 @@ Background.prototype.run = function(){
 //			coin[i].x -= MOVE_STEP;
 //		}
 		//移动阶梯		
-		for(key in ladderLayer.childList){
-			var _child = ladderLayer.childList[key];
+		for(key in stoneLayer.childList){
+			var _child = stoneLayer.childList[key];
 			if(_child.x < -_child.getWidth()){
-				ladderLayer.removeChild(_child);				
+				stoneLayer.removeChild(_child);				
 			}
 			_child._charaOld = _child.x;//上一次位置的横坐标
 			_child.x -= MOVE_STEP;
@@ -43,7 +43,13 @@ Background.prototype.run = function(){
 				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
-		
+		for(key2 in starLayer.childList){
+			var starChild = starLayer.childList[key2];
+			if(starChild.x < -starChild.getWidth()){
+				starLayer.removeChild(starChild);				
+			}
+			starChild.x -= MOVE_STEP;
+		}
 		if(self.bitmap02.x < -self.bitmap01.getWidth()){
 			self.bitmap01.x = self.bitmap02.x;
 			self.bitmap02.x = self.bitmap01.x+self.bitmap01.getWidth();
@@ -59,15 +65,21 @@ Background.prototype.run = function(){
 //		for(var i=0;i<coinlen;i++){
 //			coin[i].x += MOVE_STEP;
 //		}
-		for(key in ladderLayer.childList){
-			var _child = ladderLayer.childList[key];
+		for(key in stoneLayer.childList){
+			var _child = stoneLayer.childList[key];
 			_child._charaOld = _child.x;
 			_child.x += MOVE_STEP;
 			if(girl.x+girl.width < _child.x){
 				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
-		
+		for(key2 in starLayer.childList){
+			var starChild = starLayer.childList[key2];
+			if(starChild.x < -starChild.getWidth()){
+				starLayer.removeChild(starChild);				
+			}
+			starChild.x += MOVE_STEP;
+		}
 		if(self.bitmap01.x > 0){
 			self.bitmap01.x = -self.bitmap01.getWidth();
 			self.bitmap02.x = self.bitmap01.x+self.bitmap01.getWidth();

@@ -19,20 +19,26 @@ function Coin(){
 	self.height = self.bitmap.getHeight();
 	self.addChild(self.bitmap);
 }
-Coin.add = function(aladder){
+Coin.add = function(astone){
 	coinlen = Math.ceil(Math.random()*5)+1;//随机产生2-6个硬币
-	var sx = aladder.x +(aladder.width-stonenum*50)*0.6;
+	var sx = astone.x +(astone.width-stonenum*50)*0.6;
 	if(coinlen>stonenum){
 		coinlen = stonenum;
 	}
-	for (var j=0; j<coinlen; j++){
+	for(var j=0; j<coinlen; j++){
 		coin[j] = new Coin();
 	}
 	//设定硬币的位置
 	for(var i = 0; i < coinlen; i++){
 		coin[i].x =sx + 30*i;
-		coin[i].y = aladder.y-30;
-		ladderLayer.addChild(coin[i]);
+		coin[i].y = astone.y-30;
+		stoneLayer.addChild(coin[i]);
 	}
 };
 
+Coin.prototype.hit = function(event){
+	var self = event.target;
+	if(girl.x + girl.width >= self.x && girl.x < self.x + 25){
+		
+	}
+}

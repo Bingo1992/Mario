@@ -1,3 +1,4 @@
+var anime,girl,player;
 function Player(){
 	base(this,LSprite,[]);
 	var self = this;
@@ -31,19 +32,21 @@ Player.prototype.changeAction = function(){
 		self.y -= HEIGHT_STEP;
 		self.anime.setAction(0, 0);
 		self.isMove = false;
-		trace(self.y);
+		
 		//阶梯
-		for(var key1 in ladderLayer.childList){
-			var ladderChild = ladderLayer.childList[key1];
+		for(var key1 in stoneLayer.childList){
+			var stoneChild = stoneLayer.childList[key1];
 			//如果阶梯在屏幕之外将其移除
-			if(ladderChild.x < -ladderChild.getWidth()){
-				ladderLayer.removeChild(ladderChild);				
+			if(stoneChild.x < -stoneChild.getWidth()){
+				stoneLayer.removeChild(stoneChild);				
 			}
 			//若处于梯子周围并且跳跃则将其置于阶梯上
 			self._oldy = LGlobal.height-70-self.height;
-			if(self.x+self.width >= ladderChild.x && self.x <= ladderChild.x+ladderChild.width && self.y<=240){
-				self.y = ladderChild.y - ladderChild.height;
-				ladderChild.hitRun();
+			if(self.x+self.width >= stoneChild.x && self.x <= stoneChild.x+stoneChild.width){
+				self.y = stoneChild.y - stoneChild.height;
+//				trace(stoneChild.y);
+//				trace(self.y);
+//				stoneChild.hitRun();
 			}else{
 				setTimeout(function(){
 					self.y=self._oldy;
