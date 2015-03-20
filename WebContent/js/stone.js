@@ -3,8 +3,6 @@ var stone;
 function Stone(){
 	base(this,LSprite,[]);
 	var self = this;
-	self.child = null;
-	self._charaOld = self.x;//上一次位置的横坐标
 	self.setView();
 }
 
@@ -24,18 +22,25 @@ Stone01.prototype.setView = function(){
 	self.addChild(self.bitmap);
 };
 
+//Stone01.prototype.hitPoint = function(x,y){
+//	var self = this;
+//	if(x>self.x && x<self.x+self.width && y>self.y && y<self.y+self.height){		
+//		return true;
+//	}	
+//	return false;
+//};
 //阶梯1
-function stone02(){
+function Stone02(){
 	base(this,stone,[]);
 	var self = this;
 	self.ctrlIndex = 0;//控制地板状态
 }
-stone02.prototype.setView = function(){
+Stone02.prototype.setView = function(){
 	var self = this;
 	self.bitmap = new LBitmap(new LBitmapData(imgList["floor1"],0,0,50,20));
 	self.addChild(self.bitmap);
 };
-stone02.prototype.hitRun = function(){
+Stone02.prototype.hitRun = function(){
 	var self = this;
 	self.callParent("hitRun",arguments);
 	self.ctrlIndex++;
@@ -46,22 +51,23 @@ stone02.prototype.hitRun = function(){
 	}
 };
 //阶梯2
-function stone03(){
+function Stone03(){
 	base(this,Stone,[]);
 	this.hit = false;
 	this.hy = 10;
 }
-stone03.prototype.setView = function(){
+Stone03.prototype.setView = function(){
 	var self = this;
 	self.bitmap = new LBitmap(new LBitmapData(imgList["floor2"]));
 	self.addChild(self.bitmap);
 };
-stone03.prototype.hitRun = function (){
+Stone03.prototype.hitRun = function (){
 	var self = this;
 	self.callParent("hitRun",arguments);
 	if(self.hit)return;
 	self.hit = true;
 };
+
 //阶梯实例化
 function stoneInit(){
 	stoneLayer = new LSprite();

@@ -1,4 +1,4 @@
-
+var score = 0;//统计分数
 //显示背景
 function Background(){
 	base(this,LSprite,[]);
@@ -26,10 +26,6 @@ Background.prototype.run = function(){
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
-		//移动硬币
-//		for(var i=0;i<coinlen;i++){
-//			coin[i].x -= MOVE_STEP;
-//		}
 		//移动阶梯		
 		for(key in stoneLayer.childList){
 			var _child = stoneLayer.childList[key];
@@ -49,6 +45,7 @@ Background.prototype.run = function(){
 				starLayer.removeChild(starChild);				
 			}
 			starChild.x -= MOVE_STEP;
+			starChild.checkHit();
 		}
 		if(self.bitmap02.x < -self.bitmap01.getWidth()){
 			self.bitmap01.x = self.bitmap02.x;
@@ -62,9 +59,6 @@ Background.prototype.run = function(){
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
-//		for(var i=0;i<coinlen;i++){
-//			coin[i].x += MOVE_STEP;
-//		}
 		for(key in stoneLayer.childList){
 			var _child = stoneLayer.childList[key];
 			_child._charaOld = _child.x;
@@ -181,7 +175,5 @@ function addScore(){
 	times.size = 14;
 	times.x = 260;
 	times.y = 20;
-	backLayer.addChild(times);
-	
-	
+	backLayer.addChild(times);	
 }

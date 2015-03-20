@@ -9,7 +9,6 @@ function Player(){
 	self.shift = false;//地图中移动
 	var list = LGlobal.divideCoordinate(384,384,4,4);
 	var bitmapdata = new LBitmapData(imgList["girl"],0,0,96,96);
-
 	self.oldwidth = bitmapdata.width;
 	self.oldheight = bitmapdata.height;
 	self.x = 200;
@@ -19,7 +18,6 @@ function Player(){
 Player.prototype.onframe = function(){
 	var self = this;
 	self.anime.onframe();//循环播放list图	
-
 };
 
 //控制主角动作
@@ -30,10 +28,10 @@ Player.prototype.changeAction = function(){
 	}
 	if(self.moveType == "jump"){
 		self.y -= HEIGHT_STEP;
-		self.anime.setAction(0, 0);
-		self.isMove = false;
-		
+		self.anime.setAction(1);
+		self.isMove = false;	
 		//阶梯
+		var found = false;
 		for(var key1 in stoneLayer.childList){
 			var stoneChild = stoneLayer.childList[key1];
 			//如果阶梯在屏幕之外将其移除
@@ -42,21 +40,19 @@ Player.prototype.changeAction = function(){
 			}
 			//若处于梯子周围并且跳跃则将其置于阶梯上
 			self._oldy = LGlobal.height-70-self.height;
-			if(self.x+self.width >= stoneChild.x && self.x <= stoneChild.x+stoneChild.width){
-				self.y = stoneChild.y - stoneChild.height;
-//				trace(stoneChild.y);
-//				trace(self.y);
-//				stoneChild.hitRun();
-			}else{
-				setTimeout(function(){
-					self.y=self._oldy;
-				},500);
+			if(!found && self.x+self.width>stoneChild.x && self.x < stoneChild.x+stoneChild.width && self.y < self._oldy){
+				self.y = stoneChild.y - stoneChild.height - self.height;
 			}
+//			else{
+//				setTimeout(function(){
+//					self.y=self._oldy;
+//				},300);
+//			}
 		}
 		if(key1 == null){
 			setTimeout(function(){
 				self.y=self._oldy;
-			},500);
+			},300);
 		}			
 	}		
 };

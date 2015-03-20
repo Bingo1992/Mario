@@ -3,7 +3,6 @@ var bitmap01,bitmap02,bitmap03,bitmap04,background; //背景层
 var direction;
 var isMove = false;
 var small = true;//girl是否处于小的状态
-var score = 0;//统计分数
 var canshoot;//是否射击炮弹
 var addSpeed = 0;//添加阶梯的速度
 var coinSpeed = 0;//添加硬币的速度
@@ -224,7 +223,6 @@ function down(event){
 function onframe(){
 	LGlobal.setDebug(true);
 	enemy.run();
-
 	if(girl.isMove){
 		girl.onframe();
 		//执行100次onframe添加一个阶梯
