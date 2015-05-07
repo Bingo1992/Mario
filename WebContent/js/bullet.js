@@ -31,4 +31,30 @@ Bullet.prototype.onframe = function(){
 		//从屏幕移除
 		bulletLayer.removeChild(self);
 	}
+	self.checkHit();
 };
+//子弹与敌物碰撞
+Bullet.prototype.checkHit = function(){
+	var self = this;
+	for(var key in enemyLayer.childList){
+		if(LGlobal.hitTestArc(self,enemyLayer.childList[key])){
+			bulletLayer.removeChild(self);
+			enemyLayer.removeChild(enemyLayer.childList[key]);
+		}
+	}
+}
+function removeBullet(){
+	//子弹
+	for(var key in bulletLayer.childList){
+		bulletLayer.childList[key].onframe();
+		//移除飞出屏幕的子弹
+		if(  
+            bulletLayer.childList[key].x > LGlobal.width  
+            || bulletLayer.childList[key].x < 0  
+            || bulletLayer.childList[key].y < 0  
+            || bulletLayer.childList[key].y > LGlobal.height  
+        ){  
+            bulletLayer.removeChild(bulletLayer.childList[key]);  
+		}  
+	}
+}

@@ -1,36 +1,43 @@
-var loadingLayer,backLayer,stoneLayer,starLayer;
+var loadingLayer,backLayer,stoneLayer,starLayer,bulletLayer;
+var mushroom,mushroomLayer;
+var enemy,enemyLayer;
 var bitmap01,bitmap02,bitmap03,bitmap04,background; //背景层
-var direction;
-var isMove = false;
+var anime,girl,player;
 var small = true;//girl是否处于小的状态
 var canshoot;//是否射击炮弹
-var addSpeed = 0;//添加阶梯的速度
-var coinSpeed = 0;//添加硬币的速度
+var isMove = false;
 var MOVE_STEP = 6,HEIGHT_STEP = 100;//girl向右走的宽度和向上跳的高度
-var EN_STEP = 9;//蘑菇速度
+var hp = 1;
+var direction;
+var MySoundPlayer;
+var stoneSpeed = 0;//添加阶梯的速度
+var enemySpeed = 10;//添加硬币的速度
+var mushSpeed = 0;//添加蘑菇的速度
+var EN_STEP = 15;//蘑菇速度
 var imgList = {};
-var coin = {};
 var bitmapDataList = [];
 var STEP = 48;
 var coinlen = 0;
 var pass = 1;//关卡
-var keylock = false;//锁定按键
+var mypass;
 var keyCtrl = new Array();
 var keyList = [{keyCode:0,time:0},{keyCode:0,time:0},{keyCode:0,time:0}];
 var imgData = new Array(
 	{name:"background",path:"images/background.png"},
 	{name:"girl",path:"images/girl2.png"},
-	{name:"bg",path:"images/mario.jpg"},
+	{name:"bg",path:"images/girl_02.jpg"},
 	{name:"map",path:"images/map.png"},
 	{name:"stone",path:"images/stone.png"},
-	{name:"floor1",path:"images/floor1.png"},
-	{name:"floor2",path:"images/floor2.png"},
+	{name:"wheel",path:"images/wheel.png"},
+	{name:"stone2",path:"images/stone2.png"},
 	{name:"bullet",path:"images/bullet.png"},
-	{name:"enemy",path:"images/enemy.png"},
+	{name:"enemy",path:"images/enemy1.png"},
+	{name:"big",path:"images/red.png"},
 	{name:"gui",path:"images/gui.png"},
 	{name:"bird",path:"images/bird.png"},
-	{name:"coin",path:"images/coin.png"},
-	{name:"star",path:"images/star.png"}
+	{name:"star",path:"images/star.png"},
+	{name:"over_bg",path:"images/over.gif"}	
+	
 );
 var KEY = {LEFT:65,RIGHT:68,JUMP:75,SHOOT:74,L:37,R:39,U:38,D:40};
 function main(){
@@ -61,12 +68,22 @@ function main(){
 //读取完所有图片，进行游戏标题画面的初始化工作
 function gameInit(){
 	//	显示游戏标题
-//	var title = new GameLogo();
-//	backLayer.addChild(title);
-//	//添加点击事件
-//	backLayer.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
-	gameStart();
-//	addMap();
+	var title = new GameLogo();
+	backLayer.addChild(title);
+	// MySoundPlayer = new SoundPlayer();
+	// MySoundPlayer.background.play();
+	initMusic();
+	startMusic.play(0,100000);
+	//添加点击事件
+	backLayer.addEventListener(LMouseEvent.MOUSE_UP,addMap);
+	// gameStart();
+	// addMap();
+}
+
+function addMenu(){
+	bgClear();
+	var layer = new GameMenu();
+	backLayer.addChild(layer);
 }
 
 //添加地图，表示关数
@@ -80,33 +97,37 @@ function addMap(){
 //游戏画面开始
 function gameStart(){
 	bgClear();
+	  //停止开始界面的音乐音乐  
+    startMusic.close();  
+    //播放游戏进行中的音乐  
+    playingMusic.play(0,100000000000000000000000000000000); 
 	//添加背景图片
 	background = new Background();
 	backLayer.addChild(background);
+		//添加头部文字绘制
+	background.addHeader();	
 	startTime = new Date().getTime();
 	//下雪  
 	var effect = new LEffect();  
 	backLayer.addChild(effect);  
 	effect.snowing();  
 	
-	//阶梯实例化
+	//各LSprite层实例化
 	stoneInit();
-
+	enemyInit();
 	starInit();
-	//添加障碍物
-	enemy = new Enemy("enemy");
-	background.addChild(enemy);
+	MushroomInit();
 
 	//添加玩家
 	girl = new Player();
 	girl.Small();
 	backLayer.addChild(girl);	
-	//添加分数
-	addScore();	
+
 	//添加子弹层
 	bulletLayer = new LSprite();
 	backLayer.addChild(bulletLayer);
 	girl.setBullet(0);
+	//添加事件
 	backLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
 	backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
 	backLayer.addEventListener(LMouseEvent.MOUSE_UP,mouseup);
@@ -186,6 +207,11 @@ function down(event){
 			girl.moveType = "jump";
 		}
 		break;
+	case KEY.SHOOT:
+		 if (keyLast01.keyCode == KEY.SHOOT) {
+		 	girl.moveType = "shoot";
+		 }
+		 break;
 	case KEY.U:
 		 player.moveType = "UP";
 		 break;
@@ -199,22 +225,22 @@ function down(event){
 		 player.moveType = "RIGHT";
 		 break;
 	}
-//	if(event.keyCode == 37){
-//		background.moveType = "left";
-//		
-//	}else if(event.keyCode == 39){
-//		background.moveType = "right";
-//	}
-//	if(event.keyCode == 38){
-//		//按一次向上键跳一次
-//		if(girl.moveType == "up")return;
-//		girl.moveType = "up";
-//	}
-//	if(event.keyCode == 65){
-//		//按一次A发射子弹
-//		if(girl.moveType == "shoot")return;
-//		girl.moveType = "shoot";
-//	}
+	if(event.keyCode == 37){
+		background.moveType = "left";
+		
+	}else if(event.keyCode == 39){
+		background.moveType = "right";
+	}
+	if(event.keyCode == 38){
+		//按一次向上键跳一次
+		if(girl.moveType == "up")return;
+		girl.moveType = "up";
+	}
+	if(event.keyCode == 65){
+		//按一次A发射子弹
+		if(girl.moveType == "shoot")return;
+		girl.moveType = "shoot";
+	}
 	background.run();
 	girl.changeAction();
 }
@@ -222,41 +248,46 @@ function down(event){
 //循环播放
 function onframe(){
 	LGlobal.setDebug(true);
-	enemy.run();
+	
 	if(girl.isMove){
 		girl.onframe();
 		//执行100次onframe添加一个阶梯
-		if(addSpeed -- < 0){
-			addSpeed = 8;
-			addstone();
+		if(stoneSpeed -- < 0){
+			stoneSpeed = 8;
+			addstone();		
 		}
 	}
-	
-	var str = (new Date().getTime() - startTime) + "";
-	times.text = str.substr(0,str.length - 3) + ":" + str.substr(str.length - 3,1);
-	
-	girl.changeAction();	
-	
-	if(girl.x+40 >= enemy.x && girl.x <= enemy.x+30 && girl.y==LGlobal.height-70-girl.height){
-		girl.Big();
-//		backLayer.removeEventListener(LEvent.ENTER_FRAME,onframe);
-//		return;
+	if(enemySpeed--<0){
+		enemySpeed =50;
+		Enemy.add();	
+	}
+	if(mushSpeed--<0){
+		mushSpeed = 20;
+		RedMushroom.add();
+	}
+	//敌物移动
+	if(enemy){
+		enemy.Run();
+		enemy.Hit();
 	}
 	
-	//子弹
-	for(var key in bulletLayer.childList){
-		bulletLayer.childList[key].onframe();
-		//移除飞出屏幕的子弹
-		if(  
-            bulletLayer.childList[key].x > LGlobal.width  
-            || bulletLayer.childList[key].x < 0  
-            || bulletLayer.childList[key].y < 0  
-            || bulletLayer.childList[key].y > LGlobal.height  
-        ){  
-            bulletLayer.removeChild(bulletLayer.childList[key]);  
-		}  
-	}	
-	if(girl.moveType == "shoot"){
+	if(mushroom){
+		mushroom.Run();
+		mushroom.Hit();
+	}
+	
+	//时间器
+ 	background.timeGo();
+	
+	girl.changeAction();	
+	if(pass==6 && scores.text>=6000){
+		var layer = new GamePass();
+		backLayer.addChild(layer);
+	}
+	
+	removeBullet();	
+	if(girl.moveType == "shoot" && girl.canshoot){
 		girl.shoot();
 	}
 }
+

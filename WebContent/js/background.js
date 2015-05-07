@@ -26,20 +26,20 @@ Background.prototype.run = function(){
 		self.bitmap01.x -= MOVE_STEP;
 		self.bitmap02.x -= MOVE_STEP;
 		self.bitmap03.x -= MOVE_STEP;
+
 		//移动阶梯		
-		for(key in stoneLayer.childList){
+		for(var key in stoneLayer.childList){
 			var _child = stoneLayer.childList[key];
 			if(_child.x < -_child.getWidth()){
 				stoneLayer.removeChild(_child);				
 			}
-			_child._charaOld = _child.x;//上一次位置的横坐标
 			_child.x -= MOVE_STEP;
-	
 			if(girl.x > _child.x+_child.width-10){
 				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
-		for(key2 in starLayer.childList){
+		
+		for(var key2 in starLayer.childList){
 			var starChild = starLayer.childList[key2];
 			if(starChild.x < -starChild.getWidth()){
 				starLayer.removeChild(starChild);				
@@ -59,7 +59,7 @@ Background.prototype.run = function(){
 		self.bitmap01.x += MOVE_STEP;
 		self.bitmap02.x += MOVE_STEP;
 		self.bitmap03.x += MOVE_STEP;
-		for(key in stoneLayer.childList){
+		for(var key in stoneLayer.childList){
 			var _child = stoneLayer.childList[key];
 			_child._charaOld = _child.x;
 			_child.x += MOVE_STEP;
@@ -67,7 +67,7 @@ Background.prototype.run = function(){
 				girl.y = LGlobal.height-70-girl.height;
 			}
 		}
-		for(key2 in starLayer.childList){
+		for(var key2 in starLayer.childList){
 			var starChild = starLayer.childList[key2];
 			if(starChild.x < -starChild.getWidth()){
 				starLayer.removeChild(starChild);				
@@ -82,6 +82,70 @@ Background.prototype.run = function(){
 	}
 };
 
+//添加头部信息（分数，时间，关卡）
+Background.prototype.addHeader = function(){
+	labelText = new LTextField();
+	labelText.color = "#F7EF15";
+	labelText.font = "HG行書体";
+	labelText.size = 14;
+	labelText.x = 10;
+	labelText.y = 20;
+	labelText.text = "score:";
+	backLayer.addChild(labelText);
+	
+	scores = new LTextField();
+	scores.color = "#F7EF15";
+	scores.font = "HG行書体";
+	scores.size = 14;
+	scores.x = 100;
+	scores.y = 20;
+	if(scores.text == ''){
+		scores.text = "0";
+	}else{
+		// scores.text = localStorage.getItem("distance");
+	}
+	backLayer.addChild(scores);
+	
+	labelText2 = new LTextField();
+	labelText2.color = "#F7EF15";
+	labelText2.font = "HG行書体";
+	labelText2.size = 14;
+	labelText2.x = 180;
+	labelText2.y = 20;
+	labelText2.text = "time:";
+	backLayer.addChild(labelText2);
+	
+	times = new LTextField();
+	times.color = "#F7EF15";
+	times.font = "HG行書体";
+	times.size = 14;
+	times.x = 260;
+	times.y = 20;
+	backLayer.addChild(times);	
+	
+	labelText3 = new LTextField();
+	labelText3.color = "#F7EF15";
+	labelText3.font = "HG行書体";
+	labelText3.size = 14;
+	labelText3.x = 350;
+	labelText3.y = 20;
+	labelText3.text = "pass:";
+	backLayer.addChild(labelText3);
+	
+	mypass = new LTextField();
+	mypass.color = "#F7EF15";
+	mypass.font = "HG行書体";
+	mypass.size = 14;
+	mypass.x = 420;
+	mypass.y = 20;
+	mypass.text = localStorage.getItem("mypass");
+	backLayer.addChild(mypass);	
+}
+
+Background.prototype.timeGo = function(){
+	var str = (new Date().getTime() - startTime) + "";
+	times.text = str.substr(0,str.length - 3) + ":" + str.substr(str.length - 3,1);
+}
 /** 
 *LEffect效果类 
 */  
@@ -105,8 +169,8 @@ LEffect.prototype.raining = function(speed,size){
 };  
 LEffect.prototype.snowing = function(speed,size){  
     var s = this;  
-    if(!speed)speed = 10;  
-    if(!size)size = 1;  
+    if(!speed)speed = 10;  //下雪的速度
+    if(!size)size = 1;  //下雪的尺寸
     s.snowLayer.addEventListener(LEvent.ENTER_FRAME,function(){  
         s.onshow("snow",speed,size);  
     });  
@@ -114,7 +178,7 @@ LEffect.prototype.snowing = function(speed,size){
 LEffect.prototype.onshow = function(thing,speed,size){  
     var s = this;  
     if(thing == "rain"){  
-        s.rainLayer.graphics.clear();  
+        s.rainLayer.graphics.clear();  //清屏
         var rainX = Math.random()*(LStage.width-10-10)+10;  
         var n = s.rainList.length;  
         while(n--){  
@@ -125,55 +189,14 @@ LEffect.prototype.onshow = function(thing,speed,size){
         s.rainList.push({x:rainX,y:0,s:speed});  
     }else if(thing == "snow"){  
         s.snowLayer.graphics.clear();  
-        var snowX = Math.random()*(LGlobal.width-10-10)+10;  
+        var snowX = Math.random()*(LGlobal.width-10-10)+10;  //雪花横坐标
         var n = s.snowList.length;  
         while(n--){  
-            var o = s.snowList[n];  
-            o.y += o.s;  
-            s.snowLayer.graphics.drawArc(2,"white",[o.x,o.y,size,0,2*Math.PI],true,"white");  
+            var o = s.snowList[n];  //遍历雪花数组
+            o.y += o.s;  //y坐标加上速度大小
+            s.snowLayer.graphics.drawArc(2,"white",[o.x,o.y,size,0,2*Math.PI],true,"white");  //绘制飘雪
         }  
         s.snowList.push({x:snowX,y:0,s:speed});  
     }  
 };  
 
-//添加分数
-function addScore(){
-	labelText = new LTextField();
-	labelText.color = "#ffffff";
-	labelText.font = "HG行書体";
-	labelText.size = 14;
-	labelText.x = 10;
-	labelText.y = 20;
-	labelText.text = "score:";
-	backLayer.addChild(labelText);
-	
-	scores = new LTextField();
-	scores.color = "#fff";
-	scores.font = "HG行書体";
-	scores.size = 14;
-	scores.x = 120;
-	scores.y = 20;
-	if(scores.text == null){
-		scores.text = "0";
-	}else{
-		scores.text = localStorage.getItem("distance");
-	}
-	backLayer.addChild(scores);
-	
-	labelText2 = new LTextField();
-	labelText2.color = "#ffffff";
-	labelText2.font = "HG行書体";
-	labelText2.size = 14;
-	labelText2.x = 200;
-	labelText2.y = 20;
-	labelText2.text = "time:";
-	backLayer.addChild(labelText2);
-	
-	times = new LTextField();
-	times.color = "#fff";
-	times.font = "HG行書体";
-	times.size = 14;
-	times.x = 260;
-	times.y = 20;
-	backLayer.addChild(times);	
-}

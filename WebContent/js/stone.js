@@ -4,15 +4,14 @@ function Stone(){
 	base(this,LSprite,[]);
 	var self = this;
 	self.setView();
+//	self.hitPoint();
 }
-
 Stone.prototype.setView = function(){};
 Stone.prototype.hitRun = function(){};
-//stone
+
 function Stone01(){
 	base(this,Stone,[]);
 }
-
 //将石阶显示在canvas上
 Stone01.prototype.setView = function(){
 	var self = this;
@@ -21,7 +20,6 @@ Stone01.prototype.setView = function(){
 	self.width = self.bitmap.getWidth();
 	self.addChild(self.bitmap);
 };
-
 //Stone01.prototype.hitPoint = function(x,y){
 //	var self = this;
 //	if(x>self.x && x<self.x+self.width && y>self.y && y<self.y+self.height){		
@@ -31,43 +29,59 @@ Stone01.prototype.setView = function(){
 //};
 //阶梯1
 function Stone02(){
-	base(this,stone,[]);
+	base(this,Stone,[]);
 	var self = this;
+	this.hy = 8;
 	self.ctrlIndex = 0;//控制地板状态
 }
 Stone02.prototype.setView = function(){
 	var self = this;
-	self.bitmap = new LBitmap(new LBitmapData(imgList["floor1"],0,0,50,20));
+	self.bitmap = new LBitmap(new LBitmapData(imgList["stone2"],0,0,100,20));
 	self.addChild(self.bitmap);
 };
 Stone02.prototype.hitRun = function(){
 	var self = this;
 	self.callParent("hitRun",arguments);
-	self.ctrlIndex++;
-	if(self.ctrlIndex >= 40){
-		self.parent.removeChild(this);
-	}else if(self.ctrlIndex == 20){
-		self.bitmap.bitmapData.setCoordinate(50,0);
-	}
+	self.ctrlIndex = 0;
+	girl.y -= self.hy;
+	self.child.speed = -4;
+	self.child.isJump = true;
+	self.child = null;
+	self.bitmap.bitmapData.setCoordinate(100,0);
 };
+Stone02.prototype.onframe = function (){
+	var self = this;
+	self.callParent("onframe",arguments);
+	self.ctrlIndex++;
+	if(self.ctrlIndex == 20)self.bitmap.bitmapData.setCoordinate(0,0);
+}
 //阶梯2
 function Stone03(){
 	base(this,Stone,[]);
-	this.hit = false;
-	this.hy = 10;
 }
 Stone03.prototype.setView = function(){
 	var self = this;
-	self.bitmap = new LBitmap(new LBitmapData(imgList["floor2"]));
+	// self.graphics.drawRect(1,"#cccccc",[10,2,80,16]);
+	// self.wheelLeft = new LBitmap(new LBitmapData(imgList["wheel"]));
+	// self.addChild(self.wheelLeft);
+	// self.wheelRight = new LBitmap(new LBitmapData(imgList["wheel"]));
+	// self.wheelRight.x = 100 - self.wheelRight.getWidth()
+	// self.addChild(self.wheelRight);
+		var self = this;
+	self.bitmap = new LBitmap(new LBitmapData(imgList["stone2"],0,0,100,20));
 	self.addChild(self.bitmap);
 };
 Stone03.prototype.hitRun = function (){
 	var self = this;
 	self.callParent("hitRun",arguments);
-	if(self.hit)return;
-	self.hit = true;
+	girl.x += (MOVE_STEP-1);
 };
-
+Stone03.prototype.onframe = function (){
+	var self = this;
+	self.callParent("onframe",arguments);
+	self.wheelLeft.rotate += 2;
+	self.wheelRight.rotate += 2;
+}
 //阶梯实例化
 function stoneInit(){
 	stoneLayer = new LSprite();
@@ -76,27 +90,21 @@ function stoneInit(){
 //添加阶梯
 function addstone(){
 	var astone;
-	var index = Math.random() * 6;
+	var index = Math.random() * 9;
 	LGlobal.setDebug(true);
 	
-//	if(index <= 2 || index >= 4){
+	if(index < 3 || index > 6){
 		astone = new Stone01();
-		astone.x = LGlobal.width;
-//		astone.y = 30*8 + 30*(8*Math.random() >>> 0);	
 		astone.y = LGlobal.height - 70 - astone.height - 30*(Math.random()*2);
-		stonenum = parseInt(astone.width/50);
-//		Coin.add(astone);
-		Star.add(astone);
-//	}
-//	else if(index < 3){
-//		astone = new floor1();
-//		astone.y = 340;
-//	}
-//	else if(index < 4){
-//		astone = new floor2();
-//		astone.y = 340;
-//	}
-	astone.x = LGlobal.width;
+	}
+	else{
+		astone = new Stone03();
+		astone.y = 340;
+
+	}
+	astone.x = LGlobal.width;	
+	stonenum = parseInt(astone.width/50);
+	Star.add(astone);
 	stoneLayer.addChild(astone); 
 }
 

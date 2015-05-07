@@ -53,7 +53,6 @@ LTileMap.prototype.onshow = function(){
     var mapdata = self.mapData;  
     var partWidth = self.partWidth;  
     var partHeight = self.partHeight;  
-      
     var i,j;  
     var index,indexY,indexX;  
     var bitmapdata,bitmap;  
@@ -83,21 +82,21 @@ LTileMap.prototype.pass = function(){
 	player.scaleY = 0.5;
 	for(var i=0;i<mapdata.length;i++){  
         for(var j=0;j<mapdata[0].length;j++){  
-            index = mapdata[i][j]; 
-            self.addChild(player); 
-//            player.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
-//            player.addEventListener(LMouseEvent.MOUSE_UP,mouseup);
-//            player.addEventListener(LEvent.ENTER_FRAME,onframe);
+           index = mapdata[i][j]; 
+           self.addChild(player); 
+//           player.addEventListener(LMouseEvent.MOUSE_DOWN,mousedown);
+//           player.addEventListener(LMouseEvent.MOUSE_UP,mouseup);
+//           player.addEventListener(LEvent.ENTER_FRAME,onframe);
             if(!LGlobal.canTouch){
         		LEvent.addEventListener(window,LKeyboardEvent.KEY_DOWN,keydown);
         		LEvent.addEventListener(window,LKeyboardEvent.KEY_UP,keyup);
         	}    
+            localStorage.setItem("mypass",pass);
             if(pass == 1 && index == 82){            	  
             	 player.x = j*partWidth + self.x;    
             	 player.y = i*partHeight + self.y; 
             	 player.addEventListener(LMouseEvent.MOUSE_UP,gameStart);
-            }     
-        	
+            }          	
         }  
     }  
 };

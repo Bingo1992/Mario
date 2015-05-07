@@ -1,4 +1,3 @@
-var anime,girl,player;
 function Player(){
 	base(this,LSprite,[]);
 	var self = this;
@@ -42,18 +41,19 @@ Player.prototype.changeAction = function(){
 			self._oldy = LGlobal.height-70-self.height;
 			if(!found && self.x+self.width>stoneChild.x && self.x < stoneChild.x+stoneChild.width && self.y < self._oldy){
 				self.y = stoneChild.y - stoneChild.height - self.height;
+				found = true;		
 			}
-//			else{
-//				setTimeout(function(){
-//					self.y=self._oldy;
-//				},300);
-//			}
+			else{
+				setTimeout(function(){
+					self.y=self._oldy;
+				},300);
+			}
 		}
-		if(key1 == null){
-			setTimeout(function(){
-				self.y=self._oldy;
-			},300);
-		}			
+//		if(key1 == null){
+//			setTimeout(function(){
+//				self.y=self._oldy;
+//			},300);
+//		}			
 	}		
 };
 
@@ -70,10 +70,10 @@ Player.prototype.shoot = function(){
 	//开发发射
 	for(var i = 0; i < bullet.count; i++){
 		var angle = i*bullet.angle + bullet.startAngle;
-		xspeed = bullet.speed * Math.cos(angle+Math.PI / 180);
+		xspeed = bullet.speed * Math.cos(angle+Math.PI / 180) +20;
 		var params = {
-				x:self.x + 32,
-				y:self.y +12,
+				x:self.x + 40,
+				y:self.y +25,
 				xspeed:xspeed,
 				belong:self.belong
 		};
@@ -89,7 +89,6 @@ Player.prototype.Small = function(){
 	self.canshoot = false;
 	self.scaleX = 0.7;
 	self.scaleY = 0.7;
-	self.x = 200;
 	self.width = self.oldwidth * 0.3;
 	self.height = self.oldheight * 0.3;
 	self.y = LGlobal.height-70-self.height;
@@ -108,7 +107,7 @@ Player.prototype.Big = function(){
 //地图上的移动
 Player.prototype.onmove = function(){
 	var self = this;
-	var ml = 32;
+	var ml = 36;
 	switch(self.moveType){
 	case "UP":
 		self.y -= ml;

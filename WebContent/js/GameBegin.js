@@ -24,37 +24,25 @@ function GameLogo(){
 			logoLayer.addChild(bitmap);
 		}
 	}
-	bitmap = new LBitmap(new LBitmapData(imgList["girl"],0,0,56,56));
-	bitmap.x = 260;
-	bitmap.y = 120;
-	logoLayer.addChild(bitmap);
-	self.addChild(logoLayer);
+	// bitmap = new LBitmap(new LBitmapData(imgList["girl"],0,0,56,56));
+	// bitmap.x = 260;
+	// bitmap.y = 120;
+	// logoLayer.addChild(bitmap);
+	// self.addChild(logoLayer);
 	
 	labelText = new LTextField();
 	labelText.rotate = -20;
 	labelText.color = "#FFD306";
 	labelText.font = "HG行書体";
 	labelText.size = 70;
-	labelText.x = 20;
+	labelText.x = 120;
 	labelText.y = 50;
 	labelText.stroke = true;
 	labelText.lineWidth = 4;
-	labelText.text = "超";
+	labelText.text = "奔";
 	self.addChild(labelText);
 	
 	labelText = new LTextField();
-	labelText.color = "#FFD306";
-	labelText.font = "HG行書体";
-	labelText.size = 70;
-	labelText.x = 120;
-	labelText.y = 60;
-	labelText.stroke = true;
-	labelText.lineWidth = 4;
-	labelText.text = "级";
-	self.addChild(labelText);
-	
-	labelText = new LTextField();
-	labelText.rotate = 20;
 	labelText.color = "#FFD306";
 	labelText.font = "HG行書体";
 	labelText.size = 70;
@@ -62,11 +50,11 @@ function GameLogo(){
 	labelText.y = 60;
 	labelText.stroke = true;
 	labelText.lineWidth = 4;
-	labelText.text = "玛";
+	labelText.text = "跑";
 	self.addChild(labelText);
 	
 	labelText = new LTextField();
-	labelText.rotate = 35;
+	labelText.rotate = 20;
 	labelText.color = "#FFD306";
 	labelText.font = "HG行書体";
 	labelText.size = 70;
@@ -74,14 +62,50 @@ function GameLogo(){
 	labelText.y = 60;
 	labelText.stroke = true;
 	labelText.lineWidth = 4;
-	labelText.text = "丽";
+	labelText.text = "吧";
+	self.addChild(labelText);
+
+	labelText = new LTextField();
+	labelText.rotate = 30;
+	labelText.color = "#FFD306";
+	labelText.font = "HG行書体";
+	labelText.size = 70;
+	labelText.x = 450;
+	labelText.y = 70;
+	labelText.stroke = true;
+	labelText.lineWidth = 4;
+	labelText.text = ",";
 	self.addChild(labelText);
 	
+	labelText = new LTextField();
+	labelText.rotate = -10;
+	labelText.color = "#FFD306";
+	labelText.font = "HG行書体";
+	labelText.size = 70;
+	labelText.x = 480;
+	labelText.y = 60;
+	labelText.stroke = true;
+	labelText.lineWidth = 4;
+	labelText.text = "女";
+	self.addChild(labelText);
+
+	labelText = new LTextField();
+	labelText.rotate = 20;
+	labelText.color = "#FFD306";
+	labelText.font = "HG行書体";
+	labelText.size = 70;
+	labelText.x = 590;
+	labelText.y = 60;
+	labelText.stroke = true;
+	labelText.lineWidth = 4;
+	labelText.text = "孩";
+	self.addChild(labelText);
+
 	labelText = new LTextField();
 	labelText.color = "#B22222";
 	labelText.font = "HG行書体";
 	labelText.size = 30;
-	labelText.x = 200;
+	labelText.x = 300;
 	labelText.y = 250;
 	labelText.stroke = true;
 	labelText.lineWidth = 4;
