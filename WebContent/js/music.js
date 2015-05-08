@@ -2,11 +2,12 @@ var startMusic,overMusic,playingMusic,dieMusic;
 function initMusic(){
 	//开场音乐  
     startMusic = new LSound("./sound/startbg.mp3");  
-   
    //游戏开始后的音乐  
    playingMusic = new LSound("./sound/play.wav");  
    //消灭星星的音乐  
    getMusic = new LSound("./sound/get.wav");  
+   //结束音乐  
+    overMusic = new LSound("./sound/overbg.mp3");  
 }
 
 function SoundPlayer(){

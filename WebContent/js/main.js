@@ -280,14 +280,32 @@ function onframe(){
  	background.timeGo();
 	
 	girl.changeAction();	
-	if(pass==6 && scores.text>=6000){
-		var layer = new GamePass();
-		backLayer.addChild(layer);
-	}
 	
+	addPass();
 	removeBullet();	
 	if(girl.moveType == "shoot" && girl.canshoot){
 		girl.shoot();
 	}
 }
 
+function addPass(){
+	if(scores.text >= 1000){
+		pass = 2;
+	}
+	if(scores.text >= 2000){
+		pass = 3;
+	}
+	if(scores.text >= 3000){
+		pass = 4;
+	}
+	if(scores.text >= 4000){
+		pass =  5;
+	}
+	if(scores.text >= 5000){
+		pass = 6;
+	}
+	if(pass == 6 && scores.text >= 6000){
+		var layer = new GamePass();
+		backLayer.addChild(layer);
+	}
+}

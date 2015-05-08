@@ -87,6 +87,8 @@ Enemy.prototype.Hit = function(){
 					bgClear();
 					var layer = new GameOver();
 					backLayer.addChild(layer);
+					playingMusic.close();
+					overMusic.play(0,100000000000000000000000000000000);
 				}
 				// girl.Big();
 		//		backLayer.removeEventListener(LEvent.ENTER_FRAME,onframe);
